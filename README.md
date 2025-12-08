@@ -3,6 +3,8 @@
 
 This folder contains Markdown files for blog posts I have already posted at Quantum Milkman.
 
+Sitemap [here](./sitemap.md)
+
 I don't intend to convert these to HTML in any way, all of the static site generators I have tried have had issues. If you would like to read a webpage-like versions of these posts, you can
 
 * Visit [Quantum Milkman](https://quantummilkman.com), a substack blog where I post these articles.
