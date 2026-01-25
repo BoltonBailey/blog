@@ -1,5 +1,5 @@
 
-# Explaining Constructive Bertrand's Paradox with Lean
+# Explaining Constructive Russell's Paradox with Lean
 
 [Five stages of accepting constructive mathematics](https://www.ams.org/journals/bull/2017-54-03/S0273-0979-2016-01556-4/S0273-0979-2016-01556-4.pdf) is a nice introduction to [constructivism](https://en.wikipedia.org/wiki/Constructivism_(philosophy_of_mathematics)) by [Andrej Bauer](https://math.andrej.com/). But whenever I come back to it, I always get confused by the following passage:
 
