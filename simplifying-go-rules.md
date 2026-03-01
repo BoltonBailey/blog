@@ -1,4 +1,7 @@
----
+
+# Simplifying Go Rules Even Further
+
+<!-- ---
 title: "Simplifying Go Rules Even Further"
 date: 2020-02-18T19:03:00-05:00
 draft: false
@@ -7,7 +10,7 @@ images:
 tags:
   - games
   - go
----
+--- -->
 
 The ["Logical Rules"](https://tromp.github.io/go.html) of the game Go were produced by Tromp and Taylor: They distill the rules of the game into 10 short but mathematically precise sentences. The wording of these rules was intended to be "as simple and elegant as possible", and they do a good job of it:
 
