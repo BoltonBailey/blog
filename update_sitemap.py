@@ -29,25 +29,25 @@ def create_sitemap_content(md_files, subdirs):
     """Create the full sitemap content with links to all blog posts."""
     lines = ["# Blog Sitemap\n\n"]
     lines.append(
-        "This is an automatically generated sitemap of all blog posts in this repository.\n"
+        "This is an automatically generated sitemap of all blog posts in this repository.\n\n"
     )
 
     if md_files:
-        lines.append("\n## Main Posts\n\n")
+        lines.append("- **Main Posts**\n")
         for filename in md_files:
             # Convert filename to title (remove .md and replace hyphens/underscores with spaces)
             title = filename[:-3].replace("-", " ").replace("_", " ").title()
-            lines.append(f"- [{title}]({filename})\n")
+            lines.append(f"  - [{title}]({filename})\n")
 
     if subdirs:
         for subdir, files in sorted(subdirs.items()):
             lines.append(
-                f"\n## {subdir.replace('-', ' ').replace('_', ' ').title()}\n\n"
+                f"- **{subdir.replace('-', ' ').replace('_', ' ').title()}**\n"
             )
             for filepath in files:
                 filename = filepath.name
                 title = filename[:-3].replace("-", " ").replace("_", " ").title()
-                lines.append(f"- [{title}]({filepath})\n")
+                lines.append(f"  - [{title}]({filepath})\n")
 
     return "".join(lines)
 
