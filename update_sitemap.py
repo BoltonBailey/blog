@@ -7,6 +7,14 @@ import re
 from pathlib import Path
 
 
+def delinkify(text):
+    """
+    Remove markdown link syntax, keeping only the link text.
+    Converts [text](url) to just text.
+    """
+    return re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", text)
+
+
 def get_markdown_title(filepath):
     """
     Extract the title from a markdown file (first line starting with single #).
@@ -21,7 +29,9 @@ def get_markdown_title(filepath):
             # Check for single # (not ## or more)
             match = re.match(r"^#\s+(.+)$", stripped)
             if match:
-                return match.group(1).strip()
+                title = match.group(1).strip()
+                # Remove any markdown links from the title
+                return delinkify(title)
             # If we hit a non-empty, non-comment line that's not a title, keep looking
             # (in case there's frontmatter or other content before the title)
 
