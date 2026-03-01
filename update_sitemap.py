@@ -3,7 +3,29 @@
 Script to automatically create/update sitemap.md with links to all markdown files in the blog folder.
 """
 
+import re
 from pathlib import Path
+
+
+def get_markdown_title(filepath):
+    """
+    Extract the title from a markdown file (first line starting with single #).
+    Raises an error if no title is found.
+    """
+    with open(filepath, "r", encoding="utf-8") as f:
+        for line in f:
+            # Skip empty lines and HTML comments
+            stripped = line.strip()
+            if not stripped or stripped.startswith("<!--"):
+                continue
+            # Check for single # (not ## or more)
+            match = re.match(r"^#\s+(.+)$", stripped)
+            if match:
+                return match.group(1).strip()
+            # If we hit a non-empty, non-comment line that's not a title, keep looking
+            # (in case there's frontmatter or other content before the title)
+
+    raise ValueError(f"No markdown title (# Title) found in {filepath}")
 
 
 def get_markdown_files(directory):
@@ -25,7 +47,7 @@ def get_markdown_files(directory):
     return md_files, subdirs
 
 
-def create_sitemap_content(md_files, subdirs):
+def create_sitemap_content(directory, md_files, subdirs):
     """Create the full sitemap content with links to all blog posts."""
     lines = ["# Blog Sitemap\n\n"]
     lines.append(
@@ -35,8 +57,8 @@ def create_sitemap_content(md_files, subdirs):
     if md_files:
         lines.append("- **Main Posts**\n")
         for filename in md_files:
-            # Convert filename to title (remove .md and replace hyphens/underscores with spaces)
-            title = filename[:-3].replace("-", " ").replace("_", " ").title()
+            filepath = Path(directory) / filename
+            title = get_markdown_title(filepath)
             lines.append(f"  - [{title}]({filename})\n")
 
     if subdirs:
@@ -45,8 +67,8 @@ def create_sitemap_content(md_files, subdirs):
                 f"- **{subdir.replace('-', ' ').replace('_', ' ').title()}**\n"
             )
             for filepath in files:
-                filename = filepath.name
-                title = filename[:-3].replace("-", " ").replace("_", " ").title()
+                full_path = Path(directory) / filepath
+                title = get_markdown_title(full_path)
                 lines.append(f"  - [{title}]({filepath})\n")
 
     return "".join(lines)
@@ -60,7 +82,7 @@ def update_sitemap(directory):
     md_files, subdirs = get_markdown_files(directory)
 
     # Create sitemap content
-    sitemap_content = create_sitemap_content(md_files, subdirs)
+    sitemap_content = create_sitemap_content(directory, md_files, subdirs)
 
     # Write sitemap file
     with open(sitemap_path, "w") as f:
