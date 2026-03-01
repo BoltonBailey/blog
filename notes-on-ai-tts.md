@@ -9,7 +9,7 @@ Many of these should improve naturally with development of the technology. That 
 
 ### Regeneration of long paragraphs consumes lots of credits
 
-Often I had to regenrate a whole paragraph when there was only a small issue that I needed to correct. It would be nice if portions of long generations that have been edited could be reused in subsequent generations.
+Often I had to regenerate a whole paragraph when there was only a small issue that I needed to correct. It would be nice if portions of long generations that have been edited could be reused in subsequent generations.
 
 Unfortunately, it perhaps goes against the interests of ElevenLabs to implement this, given that the credits are what they sell. **My advice: Head this off by breaking up paragraphs into small pieces or individual sentences in advance.**
 
