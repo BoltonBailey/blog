@@ -1,3 +1,6 @@
+
+# How a High School Math Program Got Me Through Grad School
+
 I was saddened to hear about the recent passing of David Kelly. Kelly was well-beloved as the Director of the Hampshire College Summer Studies in Mathematics. HCSSiM is a 6-week summer program that lets high school students interact with college-level mathematics. My participation in HCSSiM was one of the highlights of my high-school years, and I would encourage any math-loving high-school student to consider applying.
 
 In light of this news, I wanted to share an anecdote about my own time in the program, and how it led to the first paper I published in graduate school.
