@@ -3,11 +3,12 @@
 This is an automatically generated sitemap of all blog posts in this repository.
 
 - **Main Posts**
-  - [Posted at Quantum Milkman](README.md)
+  - [Readme](README.md)
   - [A Computational Approach to Moser's Worm Lower bounds](a-computational-approach-to-mosers-worm.md)
   - [Bit Commitment from Factor Counting](bit-commitment-from-factor-counting.md)
   - [Thoughts on Condorcet Methods](condorcet-thoughts.md)
   - [Explaining Constructive Russell's Paradox with Lean](explaining-constructive-russells-paradox-with-lean.md)
+  - [Formally Verifying Probabilistic Proofs](formally-verifying-probabilistic-proofs.md)
   - [Futarchy would be better with combinatorial markets](futarchy-combinatorial.md)
   - [Futarchy for math](futarchy-for-math.md)
   - [Futarchy and Manipulability](futarchy-manipulability.md)
@@ -34,6 +35,7 @@ This is an automatically generated sitemap of all blog posts in this repository.
   - [Solving Chess](solving-chess.md)
   - [The Last Few Seconds of the 2022 Speed Chess Championship](the-last-few-seconds-of-the-2022-speed-chess-championship.md)
   - [The VDF GMW Compiler](the-vdf-gmw-compiler.md)
+  - [Utility Function Consensus](utility-function-consensus.md)
   - [What fraction of TMs halt?](what-fraction-of-tms-halt.md)
   - [zk-SNARK Terminology](zk-snark-terminology.md)
 - **Joint Markets Competition**
