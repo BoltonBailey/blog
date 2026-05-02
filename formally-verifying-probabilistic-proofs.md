@@ -1,35 +1,43 @@
 
 
-# Formally Verifying Probabilistic Proofs
+# Probabilistic and Cryptographic Logical Systems
 
-*(update: For a while this was in my research ideas folder. Then it became part of my thesis and I wrote code for it, but I never published it otherwise. I copy this early version here for posterity)*
+*For a while this was in my research ideas folder. Then it became part of my thesis and I wrote code for it. Inspired by [this discussion](https://leanprover.zulipchat.com/#narrow/stream/144837-PR-reviews/topic/.237214).*
 
-*Inspired by [this discussion](https://leanprover.zulipchat.com/#narrow/stream/144837-PR-reviews/topic/.237214) and also [previous thoughts](#updating-consensus-with-formal-rules).*
-
-*The thesis [Formal verification of probabilistic algorithms by Joe Hurd](https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-566.pdf). Might be related, but I think does not do what I want. In fact, does this argument show that the thesis is wrong somehow?*
+This post is about certain ways in which logical systems fail to be able to prove certain statements. The reader might be familiar with Godel's famous theorems about this topic.
+But the "unprovable" statements we will discuss will hopefully seem much more mundate than the Godel sentence.
 
 ## Introduction: Formal Proof of Primality
 
-A question came up for me recently while I was working on [formalizing](https://github.com/leanprover-community/mathlib/pull/8002) [Bertrand's Postulate](https://en.wikipedia.org/wiki/Bertrand%27s_postulate) in [Lean](https://leanprover.github.io/)'s [mathlib](https://github.com/leanprover-community/mathlib). Bertrand's postulate is the theorem that there is a prime between any positive number and its double. There is an elegant [proof](https://en.wikipedia.org/wiki/Proof_of_Bertrand%27s_postulate) which has made this problem part of [a benchmark](https://www.cs.ru.nl/~freek/100/) for mathematical formalization systems.
+The following question came up for me while I was working on [formalizing](https://github.com/leanprover-community/mathlib/pull/8002) [Bertrand's Postulate](https://en.wikipedia.org/wiki/Bertrand%27s_postulate) in [Lean](https://leanprover.github.io/)'s [mathlib](https://github.com/leanprover-community/mathlib). Bertrand's postulate is the theorem that there is a prime between any positive number and its double. There is an elegant [proof](https://en.wikipedia.org/wiki/Proof_of_Bertrand%27s_postulate) which has made this problem part of [a benchmark](https://www.cs.ru.nl/~freek/100/) for mathematical formalization systems.
 
 To summarize the relevant aspects of the proof: We prove there is a prime between $n$ and $2n$ by first proving a simple exponential lower bound on the $n$th central binomial coefficient, $\binom{2n}{n}$. We then assume that there is no prime between $n$ and $2n$ and then examine the prime factorization of $\binom{2n}{n}$ and use this to prove a *subexponential* upper bound on this binomial coefficient. For sufficiently large $n$ these bounds contradict each other.
 
-The last step (and the step I initially thought would be easiest to formalize) is the "cleanup step" of proving the statement true for all $n$ below the threshold where the contradictory bounds argument kicks in. This basically means making a list of primes, each less than twice the last, up to the threshold. The threshold is $468$ in the Wikipedia proof, so the list $3, 5, 7, 13, 23, 43, 83, 163, 317, 631$ works there. In our case, due to the difficulty of formalizing the calculus implicitly used in the proof, I did an arithmetical proof which was a bit looser, and so I was lead in the direction of extending this list up to about $2 \cdot 10^8$.
+The last step (and the step I initially thought would be easiest to formalize) is the "cleanup step" of proving the statement true for all $n$ below the threshold where the contradictory bounds argument kicks in. This basically means making a list of primes, each less than twice the last, up to the threshold. The threshold is $468$ in the Wikipedia proof, so the list $3, 5, 7, 13, 23, 43, 83, 163, 317, 631$ works there. In our case, due to the difficulty of formalizing the calculus implicitly used in the proof, I did an arithmetical proof which was a bit looser, and so I was led in the direction of extending this list up to about $2 \cdot 10^8$.
 
-Unfortunately, I was to find that the lean `norm_num` tactic, which had worked for proving the primality of `631`, timed-out on the proof of the 8-digit prime. `norm_num` works (at the time of writing) by checking all possible factors up to the square root of the target, which is an exponential-time algorithm. Furthermore, Lean cannot even use the ALU to perform this computation; it must check every arithmetical operation in terms of operations on numbers expressed, essentially, as lists of bits.
+Unfortunately, I was to find that the lean `norm_num` tactic, which had worked for proving the primality of `631`, timed-out on the proof of the 8-digit prime. The `norm_num` tactic works (at the time of writing) by checking all possible factors up to the square root of the target, which is an exponential-time algorithm. 
 
-This was frustrating. With such an inability to prove primality, how would improvements on Bertrand ever be made? But I think my main frustration came from the fact that in principle, these tests should not even be exponential time. In principle, one could create a prime-resolving tactic by:
+This was frustrating mainly because, these tests should not even be exponential time. In principle, one could create a primality-resolving tactic by:
 
-1. Formalizing the AKS algorithm
-2. Formalizing the proof in the AKS paper that the algorithm correctly decides PRIMES.
+1. Formalizing the [AKS primality test](https://en.wikipedia.org/wiki/AKS_primality_test)
+2. Formalizing the proof in the AKS paper that this algorithm correctly decides PRIMES.
 3. Running the algorithm on the desired inputs.
 
-But even this felt a little wrong to me for a few reasons.
+But even this felt a little wrong to me.
 
-Number one is the time complexity for this. AKS (or improvements thereof) run in $O((\log n)^6)$ time. This polynomial time, but it's a long polynomial time - I wouldn't want to run it on a 1000-digit number. There is also a $O((\log n)^4)$ algorithm that almost always works (see Goldwasser, S. and Kilian, J. "Almost All Primes Can Be Quickly Certified"). But only Miller-Rabin runs in $O((\log n)^2)$ time.
+The above approach would take us from exponential time to polynomial time - AKS (or improvements thereof) run in $O((\log n)^6)$ time. But while this is polynomial time, it's a slow polynomial time - I wouldn't want to run it on a 1000-digit number. Much faster would be to run the [Miller-Rabin test](https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test), taking only $O((\log n)^2)$ time.
 
-The other is that the paper introducing the Miller-Rabin primality test ran a computation to determine that $2^400-593$ was prime. [This blog post](https://gilkalai.wordpress.com/2021/04/22/the-probabilistic-proof-that-2400-593-is-a-prime-a-revolutionary-new-type-of-mathematical-proof-or-not-a-proof-at-all/) by Gil Kalai highlights that, at the time, we could not deterministically prove this, despite the fact that we knew it to be true. This should tell us that our conception of proof should go beyond just what we can prove deterministically.
+The trouble with the Miller-Rabin test is that it's probabilistic. 
+It has an extremely high chance of correctly determining whether or not a number is prime if it is repeated a few hundred times - we would not expect even a single error to occur carrying out such tests for a universe lifetime.
+But mathematically, this fact takes the form of a statement about probabilities of outcomes of the algorithm, rather than a statement comprising a traditional proof about the prime in question.
+It therefore isn't possible to use Miller-Rabin to prove to a proof assistant that a particular natural number is prime.
 
+I am not the first to notice that this situation is somewhat philosophically complicated.
+The paper introducing the Miller-Rabin primality test ran a computation to determine that $2^400-593$ was prime. [This blog post](https://gilkalai.wordpress.com/2021/04/22/the-probabilistic-proof-that-2400-593-is-a-prime-a-revolutionary-new-type-of-mathematical-proof-or-not-a-proof-at-all/) by Gil Kalai highlights that, at the time, we could not deterministically prove this, despite the fact that we knew it to be true. This should tell us that our conception of proof should go beyond just what we can prove deterministically.
+
+What I think I would like to add to the conversation is that we can still construct statements like this, if we work hard enough. If, say, we asked "of the first million integers greater than 10^10000, how many are prime?", it seems unlikely that AKS or ECC based methods would be performant enough to provably answer this question, even though it could be answered with Miller-Rabin in a reasonable amount of time.
+
+<!-- 
 ## Table summarizing proof systems for primes
 
 | Name                              | Complexity                       | Fraction of Primes Indicated    | Deterministic? | Correct? |
@@ -40,31 +48,41 @@ The other is that the paper introducing the Miller-Rabin primality test ran a co
 | Latest AKS (no assumptions)       | $\tilde{O}(\log(n)^{6})$         | All                             | Yes            | Yes      |
 | Goldwasser-Killian                | $O(\log(n)^4)$                   | All but $2^{-n^{1/\log\log n}}$ | Yes            | Yes      |
 | Miller-Rabin with $\log n$ checks | $\tilde{O}(\log(n)^3)$           | All but $2^{-O(n)}$             | No             | Yes      |
-| Miller-Rabin                      | $\tilde{O}(\log(n)^2)$           | All but $2^{-k}$                | No             | No       |
+| Miller-Rabin                      | $\tilde{O}(\log(n)^2)$           | All but $2^{-k}$                | No             | No       | 
+-->
 
 ## Probabilistic Proofs: An Axiom?
 
-What if the degree of the running time of AKS is too large, or the AKS proof is complicated, so I just want to prove my primes using Miller-Rabin? For a concrete example Wikipedia says that ["The difference between consecutive primes, II" by Baker, Harman, and Pintz (paywalled)](https://londmathsoc.onlinelibrary.wiley.com/doi/abs/10.1112/plms/83.3.532) is currently the best generalization of Bertrand, it proves that for some $x_0$ that could be determined "with enough effort", for $x > x_0$ there is a prime in $[x-x^{0.525}, x]$. Perhaps we might want to work out what this paper gives us for $x_0$, then start trying to lower the number by giving explicit examples of primes for smaller $x$. (Although, this might not be a good example, since you might be able to grind down the constant on this easily with some kind of certificate, if you were clever enough about giving up on a particular certificate when it took too long. [This](https://arxiv.org/pdf/1401.4233.pdf) might be better, thanks to Gerry Myerson on MathOverflow for pointing it out).
 
-More to the point, what if there comes another probabilistically-proved result which is crucial to the proof of some statement or system, but cannot be formalized in the theorem proving language at hand? This goes beyond primes (TODO MST apparently has a faster random alg than deterministic) It seems like there should be a way of modifying the Lean kernel to be able to accept probabilistic proofs.
+<!-- 
+What if the degree of the running time of AKS is too large, or the AKS proof is complicated, so I just want to prove my primes using Miller-Rabin? For a concrete example Wikipedia says that ["The difference between consecutive primes, II" by Baker, Harman, and Pintz (paywalled)](https://londmathsoc.onlinelibrary.wiley.com/doi/abs/10.1112/plms/83.3.532) is currently the best generalization of Bertrand, it proves that for some $x_0$ that could be determined "with enough effort", for $x > x_0$ there is a prime in $[x-x^{0.525}, x]$. Perhaps we might want to work out what this paper gives us for $x_0$, then start trying to lower the number by giving explicit examples of primes for smaller $x$. (Although, this might not be a good example, since you might be able to grind down the constant on this easily with some kind of certificate, if you were clever enough about giving up on a particular certificate when it took too long. [This](https://arxiv.org/pdf/1401.4233.pdf) might be better, thanks to Gerry Myerson on MathOverflow for pointing it out). 
+-->
 
-Perhaps the easiest way would be if it were possible to create a Lean proposition that somehow asserted that probabilistically proved statements are true. This way, we could avoid modifying the kernel, we would just introduce the statement as an axiom.
+So what am I to do if I need to use the fact that a particular large number is prime in my proof and I don't want to formalize a complicated deterministic test? 
+It seems like I will have to somehow modify my Lean environment to be able to accept probabilistic proofs. 
+Perhaps the easiest way to do this would be to create a Lean `axiom` that directly asserted that probabilistically proved statements are true. 
+This way, we could avoid modifying the kernel, we would just introduce the statement as an axiom.
 
 Here is what one version of this axiom might look like:
 
 ```lean
+import Mathlib
+
+TODO
+
+def SampleSpace := Fin (2 ^ 256)
+
+def H (n i x : ℕ) : SampleSpace := sorry -- A hash function
+
+def p (i : Nat) : Prop := sorry -- The family of propositions we are proving
+
 axiom probabilistic 
-  (p : Prop) -- The proposition we are proving
-  (n : nat) -- Say the randomness of the probabilistic algorithm is sampled from 0 to n-1
-  (q : fin n -> Prop) -- Our algorithm, represented as a map from the sample space to the space of propositions.
-  (hq : n/2 < ((finset.range n).filter q).card -> p) -- proof that if p is false, q is unlikely to be true
-  (forall i in finset.range 256, q H(descr(p), descr(q), n, i))  -- Condition representing that q is true on 256 "random samples"
+  (n : Nat) -- Say the randomness of the probabilistic algorithm is sampled from 0 to n-1
+  (q : Fin n -> Bool) -- Our algorithm, represented as a map from the sample space to the space of propositions/booleans.
+  (hq : n/2 < ((List.finRange n).filter q).length -> p) -- proof that if p is false, q is unlikely to be true
+  (h : ∀ i ∈ Finset.range 256, q (H n k i)) -- Condition representing that q is true on 256 "random samples"
   : p
 ```
-
-Here `H` is some hash function and `descr` is a function that maps an object defined in lean to its description of `p` and `q` in object notation. Exactly how this `descr` works is a bit of a fudge: Another way to think of it might be to just introduce some string arguments and have an `eval` function which takes strings to lean expressions.
-
-Although this statement is not provable, it *seems* to be impossible to use it to create a proof of `false`. Imagining $H$ as a random oracle, for any choice of `p, q` you would see new randomness from `H` - you would have to get impossibly lucky on the values output by the `H` to be successful.
 
 ## NO
 
@@ -130,3 +148,12 @@ Where each proposition comes with a "time to construct". You could still prove f
 
 [See this](https://math.stackexchange.com/a/228604). [Also, this](https://link.springer.com/article/10.1007/BF01302964).
 
+[Formal verification of probabilistic algorithms by Joe Hurd](https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-566.pdf) seems related, but on deeper inspection is just about the non-axiom part.
+
+<!-- 
+
+Could quantum randomness help? 
+
+Another Or paper.
+https://eprint.iacr.org/2026/356.pdf
+ -->
