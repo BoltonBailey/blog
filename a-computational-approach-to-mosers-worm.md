@@ -103,3 +103,5 @@ One thing that seems convenient here is: I think that if there is a containment,
 ## Further thoughts
 
 The tricky part of all of this is the inherent trickiness in ensuring you have a sound implementation. Luckily, [I have actually formalized a statement of the 2013 bound](https://github.com/google-deepmind/formal-conjectures/blob/9e5c532b541d85b4418fa5360f52f7011a680a23/FormalConjectures/Wikipedia/MoserWorm.lean#L113), so maybe that could be a helpful grounding for a Lean implementation of this.
+
+Also worth exploring the links on the Moser Worm Problem wiki page. I think everyhting in this post applies equally well to the Lesbegue universal covering problem https://arxiv.org/abs/1502.01251
