@@ -50,7 +50,7 @@ But we could also push it further than this: If there are limited incoming paths
 
 ## Further thoughts on the digraph
 
-It seems to me that this state digraph is likely to have a large strongly connected component (of size a constant fraction of n) as n grows. 
+It seems to me that this state digraph is likely to have a [large strongly connected component](https://en.wikipedia.org/wiki/Giant_component) (of size a constant fraction of n) as n grows. 
 
 **Question** Can we confirm this?
 
@@ -62,9 +62,9 @@ It seems like in this model, the number of incoming paths is not distributed as 
 
 This is a lot of material proving lower bounds on non-halting. Can we instead prove lower bounds on halting?
 
-Perhaps a convenient way of reasoning about `TM-Model-A` to prove a bound like this is to pretend we don't halt on the halt state and that the halt state is just a state like any other. We can then instead ask what fraction of states the infinite trace of the turing machine execution visits (and the chance that it would have halted is just the chance that the "halt" state is in this set).
+Perhaps a convenient way of reasoning about `TM-Model-A` to prove a bound like this is to pretend we don't halt on the halt state and that the halt state is just a state like any other. We can then instead ask what fraction of states the infinite trace of the Turing machine execution visits (and the chance that it would have halted is just the chance that the "halt" state is in this set).
 
-We can use this to prove that an $n$ state machine halts with at least $~ 1/\sqrt{n}$ chance, because the birthday paradox suggests that this is the fraction of states that are visited before any state is revisited (note that until we revist a state, our next state is always uniformly random), and so we visit at least this many states in expectation.
+We can use this to prove that an $n$ state machine halts with at least $~ 1/\sqrt{n}$ chance, because the birthday paradox suggests that this is the fraction of states that are visited before any state is revisited (note that until we revisit a state, our next state is always uniformly random), and so we visit at least this many states in expectation.
 
 Can we do better than this? What happens after we revisit a state for the first time? My intuition goes something like this:
 
