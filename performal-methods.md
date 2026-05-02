@@ -103,7 +103,7 @@ Consider the [SNARK](https://www.di.ens.fr/~nitulesc/files/Survey-SNARKs.pdf), a
 
 #### At the Consensus Protocol Level
 
-One could imagine using formal upgrading to upgrade the base functionality of a blockchains (the "Layer 1") directly. Previously, any substantial improvements to the core communication protocols of a blockchain have had to happen through a "hard fork" in which the community agrees on and implements code for an upgraded version of the protocol. If we had a formal specification of the functionality we wanted the blockchain to implement and a desired performance metric for this functionality, we could propagate and activate formally verified performance upgrades automatically. This could separate the concerns of the community specifying its desired features from the rollout of those features.
+One could imagine using formal upgrading to upgrade the base functionality of a blockchains (the "Layer 1") directly. Previously, any substantial improvements to the core communication protocols of a blockchain have had to happen through a "hard fork" in which the community agrees on and implements code for an upgraded version of the protocol. If we had a formal specification of the functionality we wanted the blockchain to implement and a desired performance metric for this functionality, we could propagate and activate formally verified performance upgrades automatically. This could separate the concerns of the [community specifying its desired features](./utility-function-consensus.md) from the rollout of those features.
 
 #### Fully Integrated "Cryptoeconomic" level
 
