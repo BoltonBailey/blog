@@ -14,9 +14,9 @@ In this post, I will try to give some (hopefully principled) analysis of this qu
 
 Let's consider a model where consumers use the information from a prediction market to make a decision:
 
-1. There are a large variety of consumers, with different goals and strategic options.
-2. Consumers have some binary decision to make, and will use the information from the prediction market to decide.
-3. Consumers will have utilities for each of the four decision-outcome pairs, drawn for each consumer from some joint distribution.
+1. There are a large variety of consumers, with different goals and strategic options
+2. Consumers have some binary decision to make, and will use the information from the prediction market to decide
+3. Consumers will have utilities for each of the four decision-outcome pairs, drawn for each consumer from some joint distribution
 4. Consumers are aware of these utilities and the prediction market price when they decide
 5. Consumers will assume the prediction market price is accurate
 6. Consumers will decide so as to maximize their utility
@@ -33,9 +33,9 @@ In fact, I will argue it is highly likely that $p$ will *not* fall between 0 and
 This corresponds to the possibility that other factors are so much more important than the event itself that the decision is obvious, even without input from the prediction market. 
 Essentially, the reason I think this is that the numerator should be much higher variance than the denominator.
 
-This also leads to the following important conclusion: THis asumption *tends to induce a uniform distribution on the location of the breakpoint probability* conditional on the breakpoint probability ending up between 0 and 1 at all - if the distibution has high variance and is smooth, it will look uniform locally.
+This also leads to the following important conclusion: This assumption *tends to induce a uniform distribution on the location of the breakpoint probability* conditional on the breakpoint probability ending up between 0 and 1 at all - if the distribution has high variance and is smooth, it will look uniform locally.
 
-### Why should we expect that breakpoint probability is not between 0 and 1
+### Why should we expect that the breakpoint probability is not between 0 and 1
 
 Why should we expect this? We can elaborate our model by proposing that the utility for a particular $U(Z, C)$ is made of some components
 
@@ -43,7 +43,7 @@ $$ U(Z, C) = U_{Z,C} + U_Z + U_C + U $$
 
 These subscripts are meant to represent dependence on the factors at play:
 
-* $U_{Z,C}$ represents utility that is gained or lost only in the specific outcome *and* choice. For example: I decide to move to a state and a certain president is elected whose polices affect members of that state specifically.
+* $U_{Z,C}$ represents utility that is gained or lost only in the specific outcome *and* choice. For example: I decide to move to a state and a certain president is elected whose policies affect members of that state specifically.
 * $U_Z$ represents utility arising only from the choice. For example: I decide to move to a state and I get the benefit or detriment of certain job opportunities, regardless of who is elected.
 * $U_C$ represents utility arising only from the outcome. For example: A certain president is elected and their policies affect members of my tax bracket, regardless of where they live
 * $U$ represents utility completely independent of my choices or prediction market outcomes. For example: I and my friends and family are in good health.
@@ -63,7 +63,7 @@ And if we then ignored all but one $i^*, j^*$
 
 $$ U(Z_1, \dots, Z_n, C_1, \dots C_n) = U_{Z_{i^*},C_{j^*}} + \sum_{j \neq j^*} U_{Z_{i^*},C_j}  + \sum_{i \neq i^*} U_{Z_i,C_{j^*}} + \sum_{i \neq i^*,j \neq j^*} U_{Z_i,C_j} $$
 
-If we pay attention, we notice that this has the same form as the above: There are a components that depends on both, each, or neither of the event and the decision. 
+If we pay attention, we notice that this has the same form as the above: There are components that depend on both, each, or neither of the event and the decision. 
 So we can fit our new model here in the above model's framework
 
 $$ U_{Z,C} = U_{Z_{i^*},C_{j^*}} $$
@@ -71,7 +71,7 @@ $$ U_Z = \sum_{j \neq j^*} U_{Z_{i^*},C_j} $$
 $$ U_C = \sum_{i \neq i^*} U_{Z_i,C_{j^*}} $$
 $$ U = \sum_{i \neq i^*,j \neq j^*} U_{Z_i,C_j} $$
 
-If we assume all of the $U_{Z_i,C_j}$ were independent and of equal variance, then we clearly see that U_Z (and U_C) are higher variance than $U_{Z,C}$ (and that $U$ is higher variance than either of them, suggesting that none of this really matters at all, so maybe we can forget about this prediction market thing and go touch grass or something). 
+If we assume all of the $U_{Z_i,C_j}$ were independent and of equal variance, then we clearly see that $U_Z$ (and $U_C$) are higher variance than $U_{Z,C}$ (and that $U$ is higher variance than either of them, suggesting that none of this really matters at all, so maybe we can forget about this prediction market thing and go touch grass or something).
 This would even probably be true if they were mostly independent and of roughly equal variance.
 
 
@@ -95,13 +95,13 @@ If we (by which I mean I and my coding agent) run a simulation of the above math
 
 All the utilities turn out to be essentially exactly quadratic, which makes sense, given the uniformity. 
 
-In fact, this chart looks suspiciously similar to one of the options from this GIF on the wikipedia page for scoring rules.
+In fact, this chart looks suspiciously similar to one of the options from this GIF on the Wikipedia page for scoring rules.
 
 ![](https://upload.wikimedia.org/wikipedia/commons/7/74/Scoring_functions.gif)
 
 That's right, it's our old friend the [**Brier Score**](https://en.wikipedia.org/wiki/Brier_score)! I guess this line of reasoning really chalks up as a win for that metric.
 
-## Choosing an CFMM that optimizes for Brier score
+## Choosing a CFMM that optimizes for Brier score
 
 Continuing on, we want a market maker that lets traders make expected money from their trades in proportion to how much those trades increase the expected Brier score. 
 In equations, if the market is at price $p$ and I move it to the true price $p_true$ then I should make expected profit proportional to 
@@ -110,24 +110,27 @@ $$ p_{true} ((1-p)^2 - (1-p_{true})^2 ) + (1-p_{true}) ((p)^2 - (p_{true})^2 )
 = (p - p_{true})^2  $$
 
 One way to conceive of a market maker that achieves this would just be as a uniformly distributed smear of micro-agents over the 0-to-1 probability space, each of whom has an equal amount of shares to sell or buy back at their price. 
-(In fact, in a sense, we could see these as related to users from above.) If I buy the price from $p$ up to $p_{true}$, then I am paying $(p+p_{true})/2$ per share on averages for shares that are worth $p_{true}$, for an average profit per share of $(p_true - p)/2$, and with an amount of shares purchased proportional to $(p_true - p)$, the total profit is indeed proprtional to $(p - p_{true})^2$
+(In fact, in a sense, we could see these as related to users from above.) If I buy the price from $p$ up to $p_{true}$, then I am paying $(p+p_{true})/2$ per share on average for shares that are worth $p_{true}$, for an average profit per share of $(p_{true} - p)/2$, and with an amount of shares purchased proportional to $(p_{true} - p)$, the total profit is indeed proportional to $(p - p_{true})^2$
 
 Can we turn this into a constant function market maker? The answer is yes: There is a(nother) nice [paper of Angeris et al.](https://arxiv.org/pdf/2103.14769) which talks about how CFMMs can be alternately seen in reachable reserve space or liquidity space. 
-If we start the market at 50% with equal amounts of liquidity on either side (and do a bunch of renormalization to make sure everything algins with the axes), we ultimately get the following liquidity curve, taking the form of an parabola opening up and to the right. 
+If we start the market at 50% with equal amounts of liquidity on either side (and do a bunch of renormalization to make sure everything aligns with the axes), we ultimately get the following liquidity curve, taking the form of a parabola opening up and to the right. 
 (You can also see this "Brier CFMM" mentioned directly in [this](https://arxiv.org/pdf/2302.00196) paper)
 
 ![](./pool_states.png)
 
 Having the constant-function equation for number $N_{YES}, N_{NO}$ of YES and NO shares.
 
-$$ k = \sqrt{N_{yes}} + \sqrt{N_{no}} $$
+$$ k = \sqrt{N_{YES}} + \sqrt{N_{NO}} $$
 
 For 1/4 of a currency unit in liquidity, this gets us a curve that will max out holding one share of either type when it has exhausted its shares of the other type. 
 This is in contrast to the CPMM (where the square roots would be replaced by logarithms) which keeps trading forever. 
 Perhaps this speaks to how this profile keeps its liquidity focused in the center of the curve.
 
 
+## Final thoughts
 
+* If we think this polycausality model is right, how could we best design a *combinatorial* market over many possibilities.
+* Our first-principles justification for why the breakpoint probability should be uniform maybe doesn't account for a kind of  bias where people are only looking out for prediction markets if they think they are relevant. Does this impact things?
 
 
 
