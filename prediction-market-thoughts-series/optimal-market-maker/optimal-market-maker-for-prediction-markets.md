@@ -61,7 +61,7 @@ $$ U(Z_1, \dots, Z_n, C_1, \dots C_n) = \sum_{i,j} U_{Z_i,C_j} $$
 
 And if we then ignored all but one $i^*, j^*$
 
-$$ U(Z_1, \dots, Z_n, C_1, \dots C_n) = U_{Z_{i^*},C_{j^*}} + \sum_{j \neq j^*} U_{Z_{i^*},C_j}  + \sum_{i \neq i^*} U_{Z_i,C_{j^*}} + \sum_{i \neq i^*,j \neq j^*} U_{Z_i,C_j} $$
+$$ U(Z_1, \dots, Z_n, C_1, \dots C_n) = U_{Z_{i^*}, C_{j^*}} + \sum_{j \neq j^*} U_{Z_{i^*},C_j}  + \sum_{i \neq i^*} U_{Z_i,C_{j^*}} + \sum_{i \neq i^*,j \neq j^*} U_{Z_i,C_j} $$
 
 If we pay attention, we notice that this has the same form as the above: There are components that depend on both, each, or neither of the event and the decision. 
 So we can fit our new model here in the above model's framework
@@ -120,7 +120,7 @@ If we start the market at 50% with equal amounts of liquidity on either side (an
 
 Having the constant-function equation for number $N_{YES}, N_{NO}$ of YES and NO shares.
 
-$$ k = \sqrt{N_{YES}} + \sqrt{N_{NO}} $$
+$$k = \sqrt{N_{YES}} + \sqrt{N_{NO}}$$
 
 For 1/4 of a currency unit in liquidity, this gets us a curve that will max out holding one share of either type when it has exhausted its shares of the other type. 
 This is in contrast to the CPMM (where the square roots would be replaced by logarithms) which keeps trading forever. 
@@ -129,9 +129,20 @@ Perhaps this speaks to how this profile keeps its liquidity focused in the cente
 
 ## Final thoughts
 
-* If we think this polycausality model is right, how could we best design a *combinatorial* market over many possibilities.
-* Our first-principles justification for why the breakpoint probability should be uniform maybe doesn't account for a kind of  bias where people are only looking out for prediction markets if they think they are relevant. Does this impact things?
 
 
 
 
+If we think this polycausality model is right, how could we best design a numeric or multi-choice market, or a combinatorial market over many binary possibilities?
+
+
+
+Our first-principles justification for why the breakpoint probability should be uniform maybe doesn’t account for a kind of  bias where people are only searching up prediction markets if they do think they are relevant. We might model this as a kind of startup cost to accessing the market information. How does this impact things?
+
+
+
+If we better understand the costs of research, could we adjust for that?
+
+
+
+I feel that there is some kind of weird interplay between Brier and Log score and the cases in which they are useful, where the former is more useful for practical assessment and applications and the latter is more useful for information-theoretic analysis / internal market self assessment. Can we somehow crystallize the cases where each is more appropriate?
