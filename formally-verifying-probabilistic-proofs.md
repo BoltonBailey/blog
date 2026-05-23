@@ -156,4 +156,11 @@ Could quantum randomness help?
 
 Another Or paper.
 https://eprint.iacr.org/2026/356.pdf
+
+The OSS paper, section 7
+https://eprint.iacr.org/2020/107.pdf#page=30.64
+
+This paper linked by it
+https://link.springer.com/chapter/10.1007/978-3-030-56877-1_21
+
  -->
