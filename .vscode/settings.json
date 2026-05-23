@@ -2,6 +2,8 @@
   "[markdown]": {
     "editor.wordWrap": "wordWrapColumn",
     "editor.wordWrapColumn": 80,
-    "editor.rulers": [80]
+    "editor.rulers": [80],
+    "editor.defaultFormatter": "jolars.panache",
+    "editor.formatOnSave": true
   }
 }
