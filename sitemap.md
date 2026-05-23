@@ -5,6 +5,7 @@ This is an automatically generated sitemap of all blog posts in this repository.
 - **Main Posts**
   - [Readme](README.md)
   - [A Computational Approach to Moser's Worm Lower bounds](a-computational-approach-to-mosers-worm.md)
+  - [The Binary Tree of SNARKs and Formal methods](binary-tree-snark-fv.md)
   - [Bit Commitment from Factor Counting](bit-commitment-from-factor-counting.md)
   - [Thoughts on Condorcet Methods](condorcet-thoughts.md)
   - [Explaining Constructive Russell's Paradox with Lean](explaining-constructive-russells-paradox-with-lean.md)
