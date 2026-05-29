@@ -40,6 +40,8 @@ This is an automatically generated sitemap of all blog posts in this repository.
   - [Thoughts on AI Formal Codebase maintenance](ai-codebase-maintenence/decentralized-wiki-governance.md)
 - **Joint Markets Competition**
   - [Announcing the Markets-for-Markets Competition](joint-markets-competition/announcing-the-markets-for-markets-competition.md)
+- **Mercury Heat**
+  - [Disassembling Mercury at High Temperature](mercury-heat/eternity-in-six-hours-with-heat-limits.md)
 - **Prediction Market Thoughts Series**
   - [More Combinatorial Arbitrage Networks](prediction-market-thoughts-series/more-arb-networks.md)
   - [My thoughts on prediction market platform design](prediction-market-thoughts-series/my-preferences-on-prediction-market-platform-design.md)
