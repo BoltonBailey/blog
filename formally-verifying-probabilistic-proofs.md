@@ -1,5 +1,3 @@
-
-
 # Probabilistic and Cryptographic Logical Systems
 
 *For a while this was in my research ideas folder. Then it became part of my thesis and I wrote code for it. Inspired by [this discussion](https://leanprover.zulipchat.com/#narrow/stream/144837-PR-reviews/topic/.237214).*
@@ -53,7 +51,6 @@ What I think I would like to add to the conversation is that we can still constr
 
 ## Probabilistic Proofs: An Axiom?
 
-
 <!-- 
 What if the degree of the running time of AKS is too large, or the AKS proof is complicated, so I just want to prove my primes using Miller-Rabin? For a concrete example Wikipedia says that ["The difference between consecutive primes, II" by Baker, Harman, and Pintz (paywalled)](https://londmathsoc.onlinelibrary.wiley.com/doi/abs/10.1112/plms/83.3.532) is currently the best generalization of Bertrand, it proves that for some $x_0$ that could be determined "with enough effort", for $x > x_0$ there is a prime in $[x-x^{0.525}, x]$. Perhaps we might want to work out what this paper gives us for $x_0$, then start trying to lower the number by giving explicit examples of primes for smaller $x$. (Although, this might not be a good example, since you might be able to grind down the constant on this easily with some kind of certificate, if you were clever enough about giving up on a particular certificate when it took too long. [This](https://arxiv.org/pdf/1401.4233.pdf) might be better, thanks to Gerry Myerson on MathOverflow for pointing it out). 
 -->
@@ -90,9 +87,9 @@ Unfortunately, we cannot simply substitute a cryptographic hash function like SH
 
 This runs into the same self-reference problem I discussed [earlier](#updating-consensus-with-formal-rules). Someone can construct a problem as follows:
 
-* Set p to "false"
-* Set n to 1000
-* Set q x to a statement equivalent to: "x = SHA256("false", _q, 1000, i) for some i in range 256"
+- Set p to "false"
+- Set n to 1000
+- Set q x to a statement equivalent to: "x = SHA256("false", _q, 1000, i) for some i in range 256"
 
 Since p is "false", the "not p implies q usually false" condition reduces to "q usually false".
 
@@ -138,11 +135,11 @@ Trouble is, I think we can prove false from this, [even constructively](https://
 
 Is there another logic, satisfying the analogy:
 
-| logic | function type |
-|-|-|
-| classical logic | functions |
-| constructive logic | computable functions |
-| *some other logic* | (t-time/polytime) computable functions |
+  | logic              | function type                          |
+  | ------------------ | -------------------------------------- |
+  | classical logic    | functions                              |
+  | constructive logic | computable functions                   |
+  | *some other logic* | (t-time/polytime) computable functions |
 
 Where each proposition comes with a "time to construct". You could still prove false from the above axiom in this logic if you were god, but you could not prove false with a time bound less than exponential, so maybe we only accept lemmas with a given time bound.
 
