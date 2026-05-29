@@ -16,7 +16,7 @@ This post examines this limitation. Also relevant is this [Thread](https://www.l
 
 Suppose all solar luminosity was directed to Mercury and converted to heat. Then if the planet is going to be at equilibrium temperature, the surface of the planet must radiate this energy away. How hot would it have to be to do this?
 
-The total solar power output (["Solar luminosity"](https://en.wikipedia.org/wiki/Solar_luminosity)) is $3.8 \times 10^{26}$ watts. Mercury's surface area is $7.4 \times 10^{13} m^2$ (though perhaps important to note it would shrink during the process).
+The total solar power output (["Solar luminosity"](https://en.wikipedia.org/wiki/Solar_luminosity)) is 3.8 × 10²⁶ watts. Mercury's surface area is 7.4 × 10¹³ m² (though perhaps important to note it would shrink during the process).
 The [Stefan-Boltzmann law](https://en.wikipedia.org/wiki/Stefan%E2%80%93Boltzmann_law) says that the power radiated by a black body of surface area A and temperature T is:
 
 $$ P = (5.670374419 \times 10^{−8} W \cdot m^{−2}\cdot K^{−4}) A T^4 $$
@@ -38,14 +38,14 @@ It seems impossible to me to build a launch system purely out of liquids - the m
 
 This is to say nothing about the concern of the ground itself melting or evaporating: The thread notes that the boiling point of most of the materials that make up Mercury (iron, silicates) are at most around 3000K. And the melting points of these materials are around 2000K. 
 
-Running the radiative equilibrium analysis for these temperatures (and 1000K for good measure) and calculating the time needed to consume enough power to liberate Mercury's full binding energy of $1.80 × 10^{30} J$ ^[assuming, more generously than the paper, an efficiency of 1/2 so that the same amount of power used in lifting must be radiated as heat.] 
+Running the radiative equilibrium analysis for these temperatures (and 1000K for good measure) and calculating the time needed to consume enough power to liberate Mercury's full binding energy of 1.80 × 10³⁰ J ^[assuming, more generously than the paper, an efficiency of 1/2 so that the same amount of power used in lifting must be radiated as heat.] 
 
-  | Temp  | Power Radiated | Time to Disassemble     |
-  | ----- | -------------- | ----------------------- |
-  | 1000K | 4.196e18 W     | 4.290e11 sec = 13600 yr |
-  | 2000K | 6.714e19 W     | 2.681e10 sec = 850 yr   |
-  | 3000K | 3.399e20 W     | 5.296e9 sec = 168 yr    |
-  | 4000K | 1.074e21 W     | 1.676e9 sec = 53 yr     |
+  | Temp  | Power Radiated | Time to Disassemble         |
+  | ----- | -------------- | --------------------------- |
+  | 1000K | 4.196 × 10¹⁸ W | 4.290 × 10¹¹ sec = 13600 yr |
+  | 2000K | 6.714 × 10¹⁹ W | 2.681 × 10¹⁰ sec = 850 yr   |
+  | 3000K | 3.399 × 10²⁰ W | 5.296 × 10⁹ sec = 168 yr    |
+  | 4000K | 1.074 × 10²¹ W | 1.676 × 10⁹ sec = 53 yr     |
 
 So depending on which of these constraints are actually hard, it would take decades to millennia longer to disassemble Mercury than the 31 years given by the paper.
 
@@ -66,11 +66,11 @@ A suggestion from the thread:
 > waste heat can be dumped into Mercury itself.
 
 I am pessimistic about this as a solution.
-The minerals that make up Mercury likely have a heat capacity around 500J/kg K. Mass of Mercury is 3.285 × 10^23 kg. So at full solar power input evenly distributed throughout the planet, the temperature would be rising faster than 1K per second, enough to melt the entire planet, inside and out, in a few hours.
+The minerals that make up Mercury likely have a heat capacity around 500J/kg K. Mass of Mercury is 3.285 × 10²³ kg. So at full solar power input evenly distributed throughout the planet, the temperature would be rising faster than 1K per second, enough to melt the entire planet, inside and out, in a few hours.
 
 I guess it would be ok if the power input were several OOM lower, but there's also the issue of even distribution. Presumably it is hard to drill wells down to the core, so we would at most be dumping heat to the upper layers of the planet. 
 
-How quickly will this heat propagate downwards naturally? Thermal conductance of iron is  \(50--80  W/(mK) \) (lower at high temperatures). At full solar power on the surface OTOO 10^13 W/m^2 then for a significant fraction of cooling to come from the core, we would need a temp gradient OTOO 10^11 K/m, which we can't have, given the radius of the planet.
+How quickly will this heat propagate downwards naturally? Thermal conductance of iron is 80 W/(mK) (lower at high temperatures). At full solar power on the surface OTOO 10¹³ W/m² then for a significant fraction of cooling to come from the core, we would need a temp gradient OTOO 10¹¹ K/m, which we can't have, given the radius of the planet.
 
 ### Smash another body like Ceres into Mercury
 
@@ -125,7 +125,7 @@ Some rough equations say that this is about 0.5 energy efficiency, but a nice fe
 
 Riffing on the energy dumping idea, what if we tried to convert the energy into bulk motion rather than heat? That is, we shine photons on one side of the planet to increase its angular momentum.
 
-Taking the total luminosity and dividing by the speed of light, we get a rate of momentum transfer / force of $1.268 \times 10^{18} N$. Mercury's radius is $2.44 \times 10^6 m$, so this could be a torque of $FR = 3.09 \times 10^{24} N\cdot m$. Mercury's moment of inertia is $I = \frac{2}{5} M R^2 = 6.5 \times 10^{35} kg m^2$, so we would get an angular acceleration of $\frac{FR}{\frac{2}{5} M R^2} = 4.8 \times 10^{-12} s^{-2}$, or an acceleration of a point on the planet equator of $\frac{FR^2}{\frac{2}{5} M R^2} = \frac{5}{2} \frac{F}{M} = 1.2 \times 10^{-5} m/s^2$. Escape velocity on Mercury is $ 4250 m/s$, so we would reach this in $3.5 \times 10^8 s$, or 11 years. 
+Taking the total luminosity and dividing by the speed of light, we get a rate of momentum transfer / force of 1.268 × 10¹⁸ N. Mercury's radius is 2.44 × 10⁶ m, so this could be a torque of FR = 3.09 × 10²⁴ N·m. Mercury's moment of inertia is I = (2/5) M R² = 6.5 × 10³⁵ kg m², so we would get an angular acceleration of FR / ((2/5) M R²) = 4.8 × 10⁻¹² s⁻², or an acceleration of a point on the planet equator of FR² / ((2/5) M R²) = (5/2)(F/M) = 1.2 × 10⁻⁵ m/s². Escape velocity on Mercury is 4250 m/s, so we would reach this in 3.5 × 10⁸ s, or 11 years. 
 Again it's not that bad if the Dyson sphere is already built, but is not as good if we are actively trying to build the sphere while using this strategy.
 
 Of course, the equator can not get to escape velocity while the planet still holds together. What would happen is that the planet would bulge outward and eventually form into a sort of contact binary and then a binary system of two bodies. I guess this would increase the leverage, but I assume you'd have to put in roughly this OOM of momentum before you could gain this advantage. Maybe another factor of two dpending on if the photons are bouncing off mirrors, but I am ultimately again not optimistic.
@@ -151,13 +151,13 @@ It's not necessarily clear to me how much energy needs to be spent to maintain t
 
 ### Do we need all of Mercury's material to construct the sphere?
 
-The paper seems to work backward from the mass of Mercury and the surface area of a sphere with Mercury's orbital radius to get the density of the orbital reflectors (3.92 kg/m^2). But if it's reasonable to construct reflectors at this density, could we perhaps make even lighter ones? Gravitational binding energy for a sphere of constant density is $U \propto G \rho^2 R^5$, so if we get away with using only a fraction $\alpha$ of the mass of the planet, we leave in place a body with radius $R\sqrt[3]{1-\alpha}$ and binding energy $U (1-\alpha)^\frac{5}{3}$, meaning our energy requirement is reduced by a factor of $1 - (1-\alpha)^\frac{5}{3} \approx \frac{5}{3} \alpha$.
+The paper seems to work backward from the mass of Mercury and the surface area of a sphere with Mercury's orbital radius to get the density of the orbital reflectors (3.92 kg/m²). But if it's reasonable to construct reflectors at this density, could we perhaps make even lighter ones? Gravitational binding energy for a sphere of constant density is U ∝ G ρ² R⁵, so if we get away with using only a fraction α of the mass of the planet, we leave in place a body with radius R·∛(1−α) and binding energy U(1−α)^(5/3), meaning our energy requirement is reduced by a factor of 1 − (1−α)^(5/3) ≈ (5/3)α.
 
 What is the true limiting factor on the density of the collector satellites?
 
 ### How far can we get without launching
 
-At Mercury's distance to the sun, the solar irradiance is 9,159 W/m², and at Mercury's cross sectional area that is \(\text{6.5} \times 10^{15} \text{ W}\), i.e. this is the power we'd get from perfectly efficient solar panels just on the surface of Mercury itself. But the paper seems to say that it takes a decade to get to this power level. 
+At Mercury's distance to the sun, the solar irradiance is 9,159 W/m², and at Mercury's cross sectional area that is 6.5 × 10¹⁵ W, i.e. this is the power we'd get from perfectly efficient solar panels just on the surface of Mercury itself. But the paper seems to say that it takes a decade to get to this power level. 
 
 So it feels like something is being missed here.
 
@@ -165,14 +165,14 @@ So it feels like something is being missed here.
 
 > Once Mercury is saturated (can't double any more without overheating it) switch to mining those cold asteroids out in the asteroid belt, with your giant fleet of spaceships you've built with the infrastructure that blankets Mercury and orbits the Sun. The asteroids are all spread out, so it's easier for them to radiate heat.
 
-A [Wikipedia Graphic](https://en.wikipedia.org/wiki/List_of_Solar_System_objects_by_size) claims that all other non planet mass in solar system is about x1000 the mass of Mercury, but that "[The total mass of the asteroid belt is estimated to be 2.39×10^21 kg](https://en.wikipedia.org/wiki/Asteroid_belt#Composition:~:text=The%20total%20mass%20of%20the%20asteroid%20belt%20is%20estimated%20to%20be%202.39%C3%971021%20kg)", two OOMs less than Mercury.
+A [Wikipedia Graphic](https://en.wikipedia.org/wiki/List_of_Solar_System_objects_by_size) claims that all other non planet mass in solar system is about x1000 the mass of Mercury, but that "[The total mass of the asteroid belt is estimated to be 2.39×10²¹ kg](https://en.wikipedia.org/wiki/Asteroid_belt#Composition:~:text=The%20total%20mass%20of%20the%20asteroid%20belt%20is%20estimated%20to%20be%202.39%C3%971021%20kg)", two OOMs less than Mercury.
 And of course probably the reason the paper chooses Mercury in the first place is that it's good for solar power to be near the sun, though if you're building out in the belt you can maybe navigate down to the sun with solar sails. 
 
 So my assessment of this idea is that it might be good if we don't need all that much mass. I guess it's also worth wondering about all these heat concerns for the asteroids too.
 
 ## Final thoughts
 
-- The graphic at the top of the file lists $\hbar$, c and G as key limitations in exploratory engineering, but $k_B$ seems relevant too.
+- The graphic at the top of the file lists ℏ, c and G as key limitations in exploratory engineering, but Boltzmann's constant seems relevant too.
 - This all seems like good fodder for an incremental game.
 
 <!-- Maybe also quantities like "the maximal tensile strength matter made only from known standard model particles" -->
