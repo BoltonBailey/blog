@@ -59,7 +59,7 @@ Still, maybe there are ways to get around these engineering problems. Here are s
 
 Perhaps we can still get to an operating temperature near the top of the melting points list by just using lots of really high-temperature materials. We can launch from lava-going tungsten barges, or perhaps clad the entire surface of the planet in tungsten to prevent gaseous iron from escaping. We can use concentric arrays of refrigerators with molten iron as the working fluid to keep the core machinery cool.
 
-I am pessimistic thought: It seems like at some point in this process you run into increasingly difficult engineering problems that require more and more intermediate machines to solve, decreasing efficiency, etc. More worrying, I think the thing that will get the hottest is infrastructure for actually receiving the energy beam from space - probably it is hard to find materials that remain solid at such high temperature and are simultaneously efficient solar panels.
+I am pessimistic though: It seems like at some point in this process you run into increasingly difficult engineering problems that require more and more intermediate machines to solve, decreasing efficiency, etc. More worrying, I think the thing that will get the hottest is infrastructure for actually receiving the energy beam from space - probably it is hard to find materials that remain solid at such high temperature and are simultaneously efficient solar panels.
 
 ### Dump heat to planetary core
 
@@ -73,6 +73,10 @@ The minerals that make up Mercury likely have a heat capacity around 500J/kg K. 
 I guess it would be ok if the power input were several OOM lower, but there's also the issue of even distribution. Presumably it is hard to drill wells down to the core, so we would at most be dumping heat to the upper layers of the planet. 
 
 How quickly will this heat propagate downwards naturally? Thermal conductance of iron is 80 W/(mK) (lower at high temperatures). At full solar power on the surface OTOO 10¹³ W/m² then for a significant fraction of cooling to come from the core, we would need a temp gradient OTOO 10¹¹ K/m, which we can't have, given the radius of the planet.
+
+<!-- 
+Should I look at thermal diffusivity instead?
+ -->
 
 ### Smash another body like Ceres into Mercury
 
