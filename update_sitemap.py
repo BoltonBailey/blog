@@ -1,9 +1,16 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.8"
+# dependencies = []
+# ///
 """
 Script to automatically create/update sitemap.md with links to all markdown files in the blog folder.
+
+Note that this script is run by a git hook on pre-commit.
 """
 
 import re
+import subprocess
 from pathlib import Path
 
 
@@ -38,21 +45,40 @@ def get_markdown_title(filepath):
     raise ValueError(f"No markdown title (# Title) found in {filepath}")
 
 
+def filter_gitignored(directory, paths):
+    """Drop paths that git would ignore. Falls back to no filtering if git is unavailable."""
+    if not paths:
+        return paths
+    str_paths = [str(p) for p in paths]
+    try:
+        result = subprocess.run(
+            ["git", "check-ignore", "--stdin"],
+            input="\n".join(str_paths),
+            capture_output=True,
+            text=True,
+            cwd=directory,
+        )
+    except (FileNotFoundError, OSError):
+        return paths
+    # 0 = some ignored, 1 = none ignored; anything else is an error.
+    if result.returncode not in (0, 1):
+        return paths
+    ignored = set(result.stdout.splitlines())
+    return [p for p, s in zip(paths, str_paths) if s not in ignored]
+
+
 def get_markdown_files(directory):
-    """Get all markdown files in the directory."""
-    md_files = []
+    """Get all markdown files in the directory, excluding gitignored paths."""
+    root_matches = sorted(Path(directory).glob("*.md"))
+    root_matches = filter_gitignored(directory, root_matches)
+    md_files = [f.name for f in root_matches]
 
-    # Get all .md files in the root directory
-    for file in sorted(Path(directory).glob("*.md")):
-        md_files.append(file.name)
-
-    # Get all .md files in subdirectories
+    nested_matches = sorted(Path(directory).glob("*/*.md"))
+    nested_matches = filter_gitignored(directory, nested_matches)
     subdirs = {}
-    for file in sorted(Path(directory).glob("*/*.md")):
+    for file in nested_matches:
         subdir = file.parent.name
-        if subdir not in subdirs:
-            subdirs[subdir] = []
-        subdirs[subdir].append(file.relative_to(directory))
+        subdirs.setdefault(subdir, []).append(file.relative_to(directory))
 
     return md_files, subdirs
 
@@ -98,7 +124,7 @@ def update_sitemap(directory):
     with open(sitemap_path, "w") as f:
         f.write(sitemap_content)
 
-    print("✅ sitemap.md created/updated successfully!")
+    print("✅ ./sitemap.md created/updated successfully!")
     print(f"📝 Found {len(md_files)} markdown files in root directory")
     if subdirs:
         total_subdir_files = sum(len(files) for files in subdirs.values())
