@@ -38,6 +38,8 @@ This is an automatically generated sitemap of all blog posts in this repository.
   - [zk-SNARK Terminology](zk-snark-terminology.md)
 - **Ai Codebase Maintenence**
   - [Thoughts on AI Formal Codebase maintenance](ai-codebase-maintenence/decentralized-wiki-governance.md)
+- **Braess With Tolls**
+  - [Philip Glass buys an E-ZPass](braess-with-tolls/braess-with-tolls.md)
 - **Joint Markets Competition**
   - [Announcing the Markets-for-Markets Competition](joint-markets-competition/announcing-the-markets-for-markets-competition.md)
 - **Mercury Heat**
