@@ -42,6 +42,8 @@ This is an automatically generated sitemap of all blog posts in this repository.
   - [Philip Glass buys an E-ZPass](braess-with-tolls/braess-with-tolls.md)
 - **Joint Markets Competition**
   - [Announcing the Markets-for-Markets Competition](joint-markets-competition/announcing-the-markets-for-markets-competition.md)
+- **Lazy Wordle**
+  - [Lazy Wordle](lazy-wordle/lazy-wordle.md)
 - **Mercury Heat**
   - [Disassembling Mercury at High Temperature](mercury-heat/eternity-in-six-hours-with-heat-limits.md)
 - **Prediction Market Thoughts Series**
