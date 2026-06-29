@@ -141,47 +141,5 @@ Luckily, [I have actually formalized a statement of the 2013 bound](https://gith
 Also worth exploring the links on the Moser Worm Problem wiki page.
 I think everyhting in this post applies equally well to the Lesbegue universal covering problem https://arxiv.org/abs/1502.01251
 
---------------------------------------------------------------------------------
-
-The following is not on Quantum Milkman yet
-
-## Constant Thickening Approach
-
-After thinking some more, maybe here is another approach better than the above:
-
-Suppose I have a set K of area less than the true value of the moser constant $M_C$.
-Then if I thicken K by $t$ to area $(|K| + M_c)/2$, the resulting $K^{+t}$ will not be a Moser set.
-I can prove this by finding a worm not contained in it.
-I now know that any moser set containing K must also contain some point not in $K^{+t}$.
-So if I thicken $K$ by $t/2 to $K^{+t/2}$, and I move a hull point around the border of $K^{+t}$ and track which points on the border $K^{+t/2}$ are contained in it, I can find a finite number of points on the border of $K^{+t/2}$, one of which must be contained in any moser set containing $K$.
-
-## More thoughts on proving a set non-Moser
-
-We are left with the subproblem of finding a worm that doesn't fit in a set $K$, which is addressed in the section above.
-Perhaps we can do this by branch and bound:
-
-- Start with a worm with one endpoint at the origin, and other endpoint on positive x axis
-- Branch on intervals of possible distances between endpoints
-- If necessary, also branch on intervals of possible x and y coordinates of locations at particular points x% along the curve.
-- Given some constraints, create the set of all points that could still be a part of the worm.
-  (This will maybe look sort of like a union of ellipses)
-  - If that set is contained in $K$, cut off this branch - it will not find a worm that violates the moserness
-- Given some constraints, take a worm fitting those constraints and see if it violates the bound.
-  If it does, we have proven a bound.
-
-We could also maybe take the view that a convex polygon is defined, up to rescaling, by a probability distribution on angles, and try to run the algorithm for minimal worm length through this.
-
-## How long would this take to push the bound
-
-The current best lower bound is 0.232239 and the best upper bound is 0.2618.
-I don't have a really strong reason to know where the true value lies in this range, so lets say it's about halfway between at 0.246.
-
-If we have a working set with minimum area below 0.232239, then we can blow this up by a linear factor of about 3% to 0.246.
-We can then find some worm that doesn't fit in the blown-up set, so it must be, in every orientation, "poking out" of the working set by some distance.
-If we pretend tha tthe sets are squares, this distance is 0.0070 .
-If we use this worm with shrinkage eps = 0.0035
-
-TODO complete analysis.
-
 [^1]: Technically it is supposed to be "direct isometry"/"rigid motion" - reflections are not included.
     I was confused about this initially, it is sad there is not a shorter term for this, so I will just say "isometry".
