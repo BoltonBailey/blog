@@ -4,7 +4,6 @@ This is an automatically generated sitemap of all blog posts in this repository.
 
 - **Main Posts**
   - [Readme](README.md)
-  - [A Computational Approach to Moser's Worm Lower bounds](a-computational-approach-to-mosers-worm.md)
   - [The Binary Tree of SNARKs and Formal methods](binary-tree-snark-fv.md)
   - [Bit Commitment from Factor Counting](bit-commitment-from-factor-counting.md)
   - [Thoughts on Condorcet Methods](condorcet-thoughts.md)
@@ -46,6 +45,9 @@ This is an automatically generated sitemap of all blog posts in this repository.
   - [Lazy Wordle](lazy-wordle/lazy-wordle.md)
 - **Mercury Heat**
   - [Disassembling Mercury at High Temperature](mercury-heat/eternity-in-six-hours-with-heat-limits.md)
+- **Moser**
+  - [A Computational Approach to Moser's Worm Lower bounds](moser/a-computational-approach-to-mosers-worm.md)
+  - [Approximating Moser's Worm Constant](moser/approximation-scheme-for-mosers-worm-problem.md)
 - **Prediction Market Thoughts Series**
   - [More Combinatorial Arbitrage Networks](prediction-market-thoughts-series/more-arb-networks.md)
   - [My thoughts on prediction market platform design](prediction-market-thoughts-series/my-preferences-on-prediction-market-platform-design.md)
