@@ -18,7 +18,7 @@ That is, we should show that it is possible to find (computably, as a list of po
 
 ## An $\epsilon$-net of worms
 
-My claim is that the set of polygonal worms with at most $k$ vertices belonging the grid of points $\delta \ZZ \times \delta \ZZ$, with $k, \delta$ sufficiently (large / small) satisfies this (in the sense that any worm is contained in the epsilon thickening of such a worm).
+My claim is that the set of polygonal worms with at most $k$ vertices belonging the grid of points $\delta \ZZ \times \delta \ZZ$, with $k, \delta$ sufficiently (large / small) satisfies this (in the sense that any worm is contained in the epsilon thickening of such a worm)^[Technically I think the notion of distance in the Blaschke theorem is Hausdorff metric, but this is the notion we want here] .
 
 Treating length-1 worms as 1-Lipschitz functions from the unit interval, take a worm $f: [0,1] \to \RR^2$.
 Consider $\tilde{f}$ defined by taking $\tilde{f}(n/k)$ for $n \in {0, ..., k} to be the nearest grid point to $f(n/k)$, and linearly interpolating between these points.
