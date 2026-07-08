@@ -54,3 +54,5 @@ This is an automatically generated sitemap of all blog posts in this repository.
   - [Prediction Market Thoughts part 3: The Holy Trinity of Bots](prediction-market-thoughts-series/my-thoughts-on-prediction-markets-3-trinity-and-bot-ideas.md)
   - [Prediction Market UI wishlist](prediction-market-thoughts-series/my-wishlist-on-prediction-market-ui.md)
   - [Which prediction markets are best?](prediction-market-thoughts-series/prediction-market-manifesto-pt-4-markets-as-public-goods.md)
+- **Problem 14**
+  - [Problem 14: An explicit bound](problem-14/problem-14-in-more-depth.md)
