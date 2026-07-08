@@ -9,10 +9,6 @@ This is an automatically generated sitemap of all blog posts in this repository.
   - [Thoughts on Condorcet Methods](condorcet-thoughts.md)
   - [Explaining Constructive Russell's Paradox with Lean](explaining-constructive-russells-paradox-with-lean.md)
   - [Probabilistic and Cryptographic Logical Systems](formally-verifying-probabilistic-proofs.md)
-  - [Futarchy would be better with combinatorial markets](futarchy-combinatorial.md)
-  - [Futarchy for math](futarchy-for-math.md)
-  - [Futarchy and Manipulability](futarchy-manipulability.md)
-  - [Futarchy of Mutating Preference](futarchy-of-mutating-preference.md)
   - [More Space Operas Should Be Set in the Galactic Nucleus](galactic-nucleus-as-space-opera-setting.md)
   - [How a High School Math Program Got Me Through Grad School](how-a-high-school-math-program-got-me-through-grad-school.md)
   - [Notes on AI TTS](notes-on-ai-tts.md)
@@ -39,6 +35,11 @@ This is an automatically generated sitemap of all blog posts in this repository.
   - [Thoughts on AI Formal Codebase maintenance](ai-codebase-maintenence/decentralized-wiki-governance.md)
 - **Braess With Tolls**
   - [Philip Glass buys an E-ZPass](braess-with-tolls/braess-with-tolls.md)
+- **Futarchy**
+  - [Futarchy would be better with combinatorial markets](futarchy/futarchy-combinatorial.md)
+  - [Futarchy for math](futarchy/futarchy-for-math.md)
+  - [Futarchy and Manipulability](futarchy/futarchy-manipulability.md)
+  - [Futarchy of Mutating Preference](futarchy/futarchy-of-mutating-preference.md)
 - **Joint Markets Competition**
   - [Announcing the Markets-for-Markets Competition](joint-markets-competition/announcing-the-markets-for-markets-competition.md)
 - **Lazy Wordle**
