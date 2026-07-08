@@ -13,8 +13,6 @@ This is an automatically generated sitemap of all blog posts in this repository.
   - [How a High School Math Program Got Me Through Grad School](how-a-high-school-math-program-got-me-through-grad-school.md)
   - [Notes on AI TTS](notes-on-ai-tts.md)
   - [Performal Methods](performal-methods.md)
-  - [Prediction Markets Eat Bayes, part 2: Risk-free profits](prediction-markets-eat-bayes-law-2.md)
-  - [Prediction Markets Eat Bayes](prediction-markets-eat-bayes-law.md)
   - [Quantum Bitcoin Mining](quantum-bitcoin-mining.md)
   - [Quantum Commodities](quantum-money-with-intrinsic-value.md)
   - [Quantum Pseudo-Telepathy for High Frequency Traders](quantum-pseudo-telepathy-for-high-frequency-trading.md)
@@ -24,7 +22,6 @@ This is an automatically generated sitemap of all blog posts in this repository.
   - [Simplifying Go Rules Even Further](simplifying-go-rules.md)
   - [Blog Sitemap](sitemap.md)
   - [Solving Chess](solving-chess.md)
-  - [In-your-head Kelly calculation for prediction markets](the-kelly-criterion-for-odds-expressed-as-percentage.md)
   - [The Last Few Seconds of the 2022 Speed Chess Championship](the-last-few-seconds-of-the-2022-speed-chess-championship.md)
   - [The VDF GMW Compiler](the-vdf-gmw-compiler.md)
   - [Utility Function Consensus](utility-function-consensus.md)
@@ -42,6 +39,10 @@ This is an automatically generated sitemap of all blog posts in this repository.
   - [Futarchy of Mutating Preference](futarchy/futarchy-of-mutating-preference.md)
 - **Joint Markets Competition**
   - [Announcing the Markets-for-Markets Competition](joint-markets-competition/announcing-the-markets-for-markets-competition.md)
+- **Kelly Bayes Theorem**
+  - [Prediction Markets Eat Bayes, part 2: Risk-free profits](kelly-bayes-theorem/prediction-markets-eat-bayes-law-2.md)
+  - [Prediction Markets Eat Bayes](kelly-bayes-theorem/prediction-markets-eat-bayes-law.md)
+  - [In-your-head Kelly calculation for prediction markets](kelly-bayes-theorem/the-kelly-criterion-for-odds-expressed-as-percentage.md)
 - **Lazy Wordle**
   - [Lazy Wordle](lazy-wordle/lazy-wordle.md)
 - **Mercury Heat**
