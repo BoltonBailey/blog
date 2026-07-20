@@ -37,6 +37,7 @@ This is an automatically generated sitemap of all blog posts in this repository.
   - [Futarchy for math](futarchy/futarchy-for-math.md)
   - [Futarchy and Manipulability](futarchy/futarchy-manipulability.md)
   - [Futarchy of Mutating Preference](futarchy/futarchy-of-mutating-preference.md)
+  - [It's Sometimes Sunny in Philadelphia](futarchy/its-sometimes-sunny-in-philadelphia.md)
 - **Joint Markets Competition**
   - [Announcing the Markets-for-Markets Competition](joint-markets-competition/announcing-the-markets-for-markets-competition.md)
 - **Kelly Bayes Theorem**
