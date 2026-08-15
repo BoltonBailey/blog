@@ -72,7 +72,7 @@ So even if there is a problem with partial leakage from Chebyshev bias, we could
 
 The "1.5x larger" explanation above is not, itself, a very rigorous argument.
 
-What is the minimum statistical distance between Y = X1 + X2 and Z = X3 + X4 + X5, if the Xs are i.i.d. positive-real-valued probability distributions?
+What is the minimum statistical distance between Y = X1 + X2 and Z = X3 + X4 + X5, if the Xs are i.i.d. positive-real-valued discrete probability distributions?
 
 Is this scheme, or any variant of it that I've described, secure at all?
 
