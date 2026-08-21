@@ -46,11 +46,12 @@ This is an automatically generated sitemap of all blog posts in this repository.
   - [In-your-head Kelly calculation for prediction markets](kelly-bayes-theorem/the-kelly-criterion-for-odds-expressed-as-percentage.md)
 - **Lazy Wordle**
   - [Lazy Wordle](lazy-wordle/lazy-wordle.md)
+  - [Slightly less lazy wordle](lazy-wordle/slightly-less-lazy-wordle.md)
 - **Mercury Heat**
   - [Disassembling Mercury at High Temperature](mercury-heat/eternity-in-six-hours-with-heat-limits.md)
 - **Moser**
   - [A Computational Approach to Moser's Worm Lower bounds](moser/a-computational-approach-to-mosers-worm.md)
-  - [Approximating Moser's Worm Constant](moser/approximation-scheme-for-mosers-worm-problem.md)
+  - [Computability of Moser's Worm Constant](moser/approximation-scheme-for-mosers-worm-problem.md)
 - **Prediction Market Thoughts Series**
   - [More Combinatorial Arbitrage Networks](prediction-market-thoughts-series/more-arb-networks.md)
   - [My thoughts on prediction market platform design](prediction-market-thoughts-series/my-preferences-on-prediction-market-platform-design.md)

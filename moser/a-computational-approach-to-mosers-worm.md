@@ -120,10 +120,12 @@ I think there's a few computational geomtery subroutines we would need
 #### Finding the minimal worm in a hull
 
 Technically, this is an instance of TSP.
-Bu I think this can be found in polynomial time for sets which are vertices of convex polygons!
+But I think this can be found in polynomial time for sets which are vertices of convex polygons!
 Note that in Eulcidean TSP, the path can't cross itself.
 Thus, it seems we can't visit any node which isn't a neighbor of one we've already visited, since otherwise we would be forced to loop back and cross our own path.
 This means there are only two options at any juncture, and I think we can perform dynamic programming.
+
+<!-- There is a wrinkle in some versions where maybe the smallest worm that contains a polygon in its hull might have vertices which are not vertices of the polygon. -->
 
 #### A potentially useful algorithm for determining if one convex polygon fits inside another
 
@@ -139,7 +141,7 @@ The tricky part of all of this is the inherent trickiness in ensuring you have a
 Luckily, [I have actually formalized a statement of the 2013 bound](https://github.com/google-deepmind/formal-conjectures/blob/9e5c532b541d85b4418fa5360f52f7011a680a23/FormalConjectures/Wikipedia/MoserWorm.lean#L113), so maybe that could be a helpful grounding for a Lean implementation of this.
 
 Also worth exploring the links on the Moser Worm Problem wiki page.
-I think everyhting in this post applies equally well to the Lesbegue universal covering problem https://arxiv.org/abs/1502.01251
+I think everyhting in this post applies equally well to the Lesbesgue universal covering problem https://arxiv.org/abs/1502.01251
 
 [^1]: Technically it is supposed to be "direct isometry"/"rigid motion" - reflections are not included.
     I was confused about this initially, it is sad there is not a shorter term for this, so I will just say "isometry".
