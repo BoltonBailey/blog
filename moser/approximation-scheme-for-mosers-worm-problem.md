@@ -85,15 +85,23 @@ It raises a few **Question**s
   Does that make a difference?
 - The previous post was about using casework to include larger sets in the set of hulls that need covering.
   Does the inclusion of these impact the size of the net?
-- There is some [prior work](https://www.researchgate.net/publication/220453014_Covering_n-Segment_Unit_Arcs_Is_Not_Sufficient) asserting that for any n, there is a cover of the n-segment worms which does not cover all worms.
-  I guess the implication is that this means the minimal cover for the class of n-segment worms might always be less than the Moser cover.
-  But if you read it carefully, you notice that "there is a cover of n-segment polygonal worms which does not cover all worms" is not the same as "the minimal cover of n-segment worms is not the minimal cover of all worms".
-  So is the weak version of this conjecture open?
-- It's also the case that this paper makes use of the "broadworm" which we mentioned last time.
-  The broadworm turns out to be constructed from segments and circular arcs, so maybe we could consider worms in this class instead?
-  - Is it the case that we just need to consider the broadworm + n-segment polygonal worms?
-  - It it the case that we just need to consider n-segment worms where the segments can either be linear or circular arcs?
 - Are there faster algorithms than CAD to compute the smallest convex hull of isometries from a set?
+
+<!-- 
+Maybe useful: Use previous wetzel's sector to restrict the set from which we draw the worms.
+ -->
+
+It also puts some more weight on questions that were asked before about covers of certain subclasses of worm.
+For example, [there is prior work](https://www.researchgate.net/publication/220453014_Covering_n-Segment_Unit_Arcs_Is_Not_Sufficient) asserting that for any n, there is a cover of the n-segment polygonal worms which does not cover the widest unit length worm (the "broadworm").
+
+![](./broadworm.png)
+
+I guess the implication is that this means the minimal cover for the class of n-segment worms might always be less than the Moser cover.
+But if you read it carefully, you notice that "there is a cover of n-segment polygonal worms which does not cover all worms" is not the same as "the minimal cover of n-segment worms is not the minimal cover of all worms".
+
+- So is the latter version of this conjecture true/open?
+- Is the conjecture true for the class of "the broadworm + n-segment polygonal worms"?
+- The broadworm has a particular form: Is the conjecture true for the class "n-segment worms where the segments can either be linear or circular arcs"?
 
 ## More thoughts on finding nets of worms
 
@@ -121,12 +129,12 @@ We could do this by branch and bound:
 
 I think last time I said this was just TSP, but it might be more complicated than that, because for some shapes, it consumes less length to actually use points off the hull.
 For example, for a regular pentagon of unit side length, the minimal TSP of the vertices will be 4.
-But we can actually find a sorter worm that contains the pentagon in its hull by dropping perpendiculars to the line containing one side from the two vertices nearest to the line that aren't on it.
+But we can actually find a shorter worm (length about 3.9) that contains the pentagon in its hull by dropping perpendiculars to the line containing one side from the two vertices nearest to the line that aren't on it.
 
-TODO Image
+![Credit: Claude Opus 5.](./pentagon-worm.png)
 
 Still, this problem seems simple enough that I figure it's probably in P (modulo weird square-root-sum concerns).
-I think you can probably say something like "the minimal worm that contains a point set only includes at most two vertices not in the set, namely the endpoints" and then argue that these two points fall on the intersection of lines coindicent with sides of the hull and do polynomial casework over these.
+I think you can probably say something like "the minimal worm that contains a point set only includes at most two vertices not in the set, namely the endpoints" and then argue that these two points fall on perpendiculars to lines coindicent with sides of the hull and do polynomial casework over these.
 
 <!-- 
 Here a (potentially useful?) lemma:
