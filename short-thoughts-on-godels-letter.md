@@ -14,11 +14,13 @@ The relevant section is (paraphrasing mine):
 The passage is very insightful.
 Nevertheless, with the benefit of hindsight, I feel we can argue that the letter gets it wrong in two ways.
 
-On the pessimistic side, Gödel doesn't account for the possiblity that even if P!=NP, it might still be the case that all human mathematical work on open questions can be mechanized, because we might develop a machine that would come up with a proof whenever a human could have.
+On one hand, Gödel doesn't account for the possiblity that even if P!=NP, it might still be the case that all human mathematical work on open questions can be mechanized, because we might develop a machine that would come up with a proof whenever a human could have.
 
 <!-- Feels spiritually similar to [Heuristica](https://www.cs.mun.ca/~kol/courses/6743-w15/papers/russell-fiveworlds.pdf) -->
 
 On the other hand, it might also not be so simple "to choose the natural number n so large that when the machine does not deliver a result, it makes no sense to think more about the problem."
 If the ∼ k ⋅ n² proof search program can be run for n steps, it would only require 4x the resources to run for 2n steps.
 Such an increase could be worthwhile, if the chances of and rewards for success were high enough.
-So it seems like human judgement might still end up part of the mathematical process, both to assess the likelihood that more computation would yield a useful result, and to determine what.lue of such a result would be
+So it seems like human judgement might still end up part of the mathematical process, both to assess the likelihood that more computation would yield a useful result, and to determine what the value of such a result would be
+
+Perhaps I should leave it to the reader to decide which of these observations is the optimistic one, and which the pessimistic.
