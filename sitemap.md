@@ -19,6 +19,7 @@ This is an automatically generated sitemap of all blog posts in this repository.
   - [Comparing predictions made at different times](relative-brier-score-criticism.md)
   - [Sander UFOs](rsa-ufo-applications-and-ideas.md)
   - [Sampling certified primes](sampling-certified-primes.md)
+  - [Short thoughts on Gödel's letter to von Neumann](short-thoughts-on-godels-letter.md)
   - [Simplifying Go Rules Even Further](simplifying-go-rules.md)
   - [Blog Sitemap](sitemap.md)
   - [Solving Chess](solving-chess.md)
