@@ -1,4 +1,4 @@
-# Lazy Wordle
+# [Lazy Wordle](https://thequantummilkman.substack.com/p/lazy-wordle)
 
 [Many](https://jonathanolson.net/experiments/optimal-wordle-solutions) have [done](https://rimonim.github.io/blog/wordle/) computational [analyses](https://www.youtube.com/watch?v=v68zYyaEmEA) of [Wordle](https://www.nytimes.com/games/wordle/index.html) and optimal ways to [play](https://tomjohnston.co.uk/blog/2022-02-07-optimal-wordle-strategies.html) it.^[I also like [this video about compression of the word list](https://www.youtube.com/watch?v=JYN25TeM5kI)]
 
