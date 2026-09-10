@@ -243,3 +243,36 @@ I guess it's also worth wondering about all these heat concerns for the asteroid
 - This all seems like good fodder for an incremental game.
 
 <!-- Maybe also quantities like "the maximal tensile strength matter made only from known standard model particles" -->
+
+--------------------------------------------------------------------------------
+
+## Not published
+
+### criticism of the solar mirror efficency
+
+distance mercury to sun / radius of sun = 0.01
+
+thus for any mirror we build, light will be reflected off of any small component of the mirror in a cone of half angle about 0.01 radians.
+The distance from the mirror to the solar captor must therefore be less than 100 times the radius of the captor.
+
+#### If the captor is also in space
+
+So the mirror can then take up area only 10000 more than the captor.
+So if the mirror is 0.5 mm thick, then the captor needs to be under 5m thick (in terms of the iron that makes it up) to consume less material than the mirror does.
+And this has to account for panels and whatever power storage mechanism it uses.
+
+Can we have a secondary mirror/lenses to clean up?
+
+#### If the captor is just mercury itself
+
+Then we have only multiplied the effective surface area of mercury by x10000.
+Only four orders of magnitude increase over
+
+### Mirrors coming apart due to solar pressure?
+
+If we make paraboloid mirrors then solar pressure will push opposite ends of the mirror away from each other.
+
+Tensile strength of iron is < 250 MPa.
+Solar radiation pressure at Mercury is 60 microPascals.
+This suggests at most a 4 x 10^12 ratio between the thickness of the mirror and the length of the mirror.
+At 0.5 mm thickness, this gives us 10^9 m, which is fine.
