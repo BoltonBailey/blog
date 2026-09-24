@@ -50,6 +50,8 @@ This is an automatically generated sitemap of all blog posts in this repository.
   - [Slightly less lazy wordle](lazy-wordle/slightly-less-lazy-wordle.md)
 - **Mercury Heat**
   - [Disassembling Mercury at High Temperature](mercury-heat/eternity-in-six-hours-with-heat-limits.md)
+- **Minesweeper**
+  - [Perfect Minesweeper](minesweeper/perfect-minesweeper.md)
 - **Moser**
   - [A Computational Approach to Moser's Worm Lower bounds](moser/a-computational-approach-to-mosers-worm.md)
   - [Computability of Moser's Worm Constant](moser/approximation-scheme-for-mosers-worm-problem.md)

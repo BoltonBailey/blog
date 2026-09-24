@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Probability Minesweeper</title>
+<style>
+  :root { color-scheme: light; }
+  body { font-family: system-ui, -apple-system, Segoe UI, sans-serif; background:#f0f0f0; margin:0; padding:16px; color:#222; }
+  h1 { font-size: 20px; margin: 0 0 8px; }
+  .controls { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:10px; }
+  .controls label { font-size: 13px; }
+  button, select, input { font: inherit; }
+  input[type=number] { width: 60px; }
+  #healthWrap { margin: 10px 0; max-width: 560px; }
+  #healthBar { height: 22px; background:#ddd; border:1px solid #999; border-radius:4px; overflow:hidden; }
+  #healthFill { height:100%; background: linear-gradient(90deg,#2ecc71,#27ae60); width:100%; transition: width .25s; }
+  #healthText { font-size: 14px; margin-top: 4px; }
+  #status { font-size: 14px; margin: 6px 0; min-height: 18px; }
+  #board { display:grid; gap:1px; background:#888; border:3px solid #888; width:max-content; user-select:none; }
+  .cell { width:26px; height:26px; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:14px; cursor:pointer; position:relative;
+          background:#bdbdbd; box-shadow: inset 2px 2px #fff, inset -2px -2px #7b7b7b; }
+  .cell.revealed { background:#e0e0e0; box-shadow:none; cursor:default; }
+  .cell.flag { color:#c00; }
+  .cell.mine { background:#e0e0e0; box-shadow:none; }
+  .cell.boom { background:#f55; }
+  .cell.wrongflag { background:#fc8; }
+  .cell .p { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:normal; color:#003; }
+  .cell.p100 .p { color:#080; font-weight:bold; }
+  .cell.p0 .p { color:#c00; font-weight:bold; }
+  .n1{color:#1a1aff}.n2{color:#007b00}.n3{color:#e00}.n4{color:#00007b}.n5{color:#7b0000}.n6{color:#008b8b}.n7{color:#000}.n8{color:#808080}
+  #log { font-size: 12px; max-width: 560px; max-height: 140px; overflow:auto; background:#fff; border:1px solid #ccc; padding:6px; margin-top:10px; white-space:pre-wrap; }
+  .help { font-size: 12px; color:#555; max-width: 640px; margin-top: 8px; }
+</style>
+</head>
+<body>
+<h1>Probability Minesweeper</h1>
+<div class="controls">
+  <select id="preset">
+    <option value="9,9,10">Beginner 9×9, 10</option>
+    <option value="16,16,40" selected>Intermediate 16×16, 40</option>
+    <option value="30,16,99">Expert 30×16, 99</option>
+    <option value="custom">Custom</option>
+  </select>
+  <span id="customBox" style="display:none">
+    W <input type="number" id="cw" value="20" min="4" max="60">
+    H <input type="number" id="ch" value="12" min="4" max="40">
+    Mines <input type="number" id="cm" value="40" min="1">
+  </span>
+  <button id="newGame">New game</button>
+  <label><input type="checkbox" id="showProb"> Show safe %</label>
+  <label><input type="checkbox" id="autoSafe"> Auto-open safe cells</label>
+</div>
+
+<div id="healthWrap">
+  <div id="healthBar"><div id="healthFill"></div></div>
+  <div id="healthText"></div>
+</div>
+<div id="status"></div>
+<div id="board"></div>
+<div id="log"></div>
+<div class="help">
+  For every click after the first, the game computes the probability that the cell is safe given everything you can see
+  (and the total mine count), multiplies your health by it, and then re-draws a random mine layout that is consistent with
+  the visible numbers and with your clicked cell being safe. Your health is therefore the probability that all your guesses
+  so far would have succeeded, if the game were being played as normal.
+</div>
+
+<script>
+(() => {
+// ---------- State ----------
+let W, H, M, N;
+let mines, revealed, flagged;   // Uint8Array
+let health, started, over, won, boomAt;
+let analysis = null;            // cached analysis of current visible state
+let guesses = 0;
+
+const $ = id => document.getElementById(id);
+const boardEl = $('board'), logEl = $('log');
+
+function idx(x, y) { return y * W + x; }
+function neighbors(i) {
+  const x = i % W, y = (i - x) / W, out = [];
+  for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+    if (!dx && !dy) continue;
+    const nx = x + dx, ny = y + dy;
+    if (nx >= 0 && nx < W && ny >= 0 && ny < H) out.push(idx(nx, ny));
+  }
+  return out;
+}
+function numberAt(i) { let c = 0; for (const j of neighbors(i)) c += mines[j]; return c; }
+
+// ---------- Binomial (doubles are fine up to ~1e308) ----------
+function binom(n, k) {
+  if (k < 0 || k > n) return 0;
+  k = Math.min(k, n - k);
+  let r = 1;
+  for (let i = 1; i <= k; i++) r = r * (n - k + i) / i;
+  return r;
+}
+
+// ---------- Exact analysis ----------
+// Enumerates all mine configurations consistent with the revealed numbers and the global
+// mine count, using a transfer-matrix DP over frontier cells in column-major order.
+// forcedSafe: a cell index that is additionally required to be safe (or -1).
+function analyze(forcedSafe) {
+  const isUnknown = new Uint8Array(N);
+  for (let i = 0; i < N; i++) if (!revealed[i] && i !== forcedSafe) isUnknown[i] = 1;
+
+  // Constraints: revealed cells touching at least one unknown cell.
+  const cons = [];               // {need, cells:[]}
+  const cellCons = Array.from({ length: N }, () => []);
+  for (let i = 0; i < N; i++) {
+    if (!revealed[i]) continue;
+    const nb = neighbors(i).filter(j => isUnknown[j]);
+    if (!nb.length) continue;
+    const j = cons.length;
+    cons.push({ need: numberAt(i), cells: nb });
+    for (const c of nb) cellCons[c].push(j);
+  }
+  const frontier = [], interior = [];
+  for (let i = 0; i < N; i++) if (isUnknown[i]) (cellCons[i].length ? frontier : interior).push(i);
+  frontier.sort((a, b) => (a % W) - (b % W) || a - b);   // column-major
+  const n = frontier.length, pos = new Map();
+  frontier.forEach((c, p) => pos.set(c, p));
+  // per constraint: positions of its cells, sorted
+  const conPos = cons.map(c => c.cells.map(x => pos.get(x)).sort((a, b) => a - b));
+  // per position: list of [conIdx, isLast, remainingAfter]
+  const posCons = frontier.map((c, p) => cellCons[c].map(j => {
+    const ps = conPos[j], k = ps.indexOf(p);
+    return [j, k === ps.length - 1, ps.length - 1 - k];
+  }));
+  const K = Math.min(n, M);
+
+  // Forward pass: layers of states. state = {key, counts:{conIdx:cnt (nonzero only)}, byK:Float64Array, t:[keySafe,keyMine]}
+  const layers = [new Map([['', { counts: {}, byK: [1], t: [null, null] }]])];
+  const transition = (st, p, m) => {
+    const nc = Object.assign({}, st.counts);
+    for (const [j, isLast, rem] of posCons[p]) {
+      const c = (nc[j] || 0) + m, need = cons[j].need;
+      if (c > need) return null;
+      if (isLast) { if (c !== need) return null; delete nc[j]; }
+      else { if (c + rem < need) return null; if (c) nc[j] = c; else delete nc[j]; }
+    }
+    const keys = Object.keys(nc).sort((a, b) => a - b);
+    return { counts: nc, key: keys.map(k => k + ':' + nc[k]).join(';') };
+  };
+  for (let p = 0; p < n; p++) {
+    const cur = layers[p], next = new Map();
+    for (const st of cur.values()) {
+      for (let m = 0; m <= 1; m++) {
+        const r = transition(st, p, m);
+        if (!r) continue;
+        let ns = next.get(r.key);
+        if (!ns) { ns = { counts: r.counts, byK: new Array(K + 2).fill(0), t: [null, null] }; next.set(r.key, ns); }
+        const a = st.byK;
+        for (let k = 0; k < a.length; k++) if (a[k] && k + m <= K) ns.byK[k + m] += a[k];
+        st.t[m] = r.key;
+      }
+    }
+    layers.push(next);
+  }
+  const finalState = layers[n].get('');
+  const feasible = !!finalState;
+
+  // Backward pass: B[p][key] = array over j: number of ways to finish positions p..n-1 using j mines.
+  const B = new Array(n + 1);
+  B[n] = new Map([['', (() => { const a = new Array(K + 1).fill(0); a[0] = 1; return a; })()]]);
+  for (let p = n - 1; p >= 0; p--) {
+    const map = new Map();
+    for (const [key, st] of layers[p]) {
+      const arr = new Array(K + 1).fill(0);
+      for (let m = 0; m <= 1; m++) {
+        const nk = st.t[m]; if (nk === null) continue;
+        const nb = B[p + 1].get(nk); if (!nb) continue;
+        for (let j = 0; j + m <= K; j++) if (nb[j]) arr[j + m] += nb[j];
+      }
+      map.set(key, arr);
+    }
+    B[p] = map;
+  }
+  const total = feasible ? B[0].get('') : new Array(K + 1).fill(0);
+  const nInt = interior.length;
+  const w = new Array(K + 1);
+  let Wsum = 0;
+  for (let k = 0; k <= K; k++) { w[k] = total[k] * binom(nInt, M - k); Wsum += w[k]; }
+
+  // Marginal mine probabilities.
+  const probMine = new Float64Array(N).fill(NaN);
+  if (Wsum > 0) {
+    // interior: expected (M-k)/nInt
+    if (nInt) {
+      let e = 0;
+      for (let k = 0; k <= K; k++) e += w[k] * (M - k) / nInt;
+      for (const c of interior) probMine[c] = e / Wsum;
+    }
+    const wk = k => (k >= 0 && k <= K) ? binom(nInt, M - k) : 0;
+    for (let p = 0; p < n; p++) {
+      let acc = 0;
+      for (const st of layers[p].values()) {
+        const nk = st.t[1]; if (nk === null) continue;
+        const nb = B[p + 1].get(nk); if (!nb) continue;
+        const a = st.byK;
+        for (let i = 0; i < a.length; i++) {
+          if (!a[i]) continue;
+          for (let j = 0; j <= K; j++) if (nb[j]) acc += a[i] * nb[j] * wk(i + j + 1);
+        }
+      }
+      probMine[frontier[p]] = acc / Wsum;
+    }
+    if (forcedSafe >= 0) probMine[forcedSafe] = 0;
+  }
+
+  // Draw a uniformly random consistent configuration.
+  function sample() {
+    if (Wsum <= 0) return null;
+    let r = Math.random() * Wsum, k = 0;
+    for (k = 0; k <= K; k++) { r -= w[k]; if (r <= 0) break; }
+    if (k > K) k = K;
+    const out = new Uint8Array(N);
+    let key = '', rem = k;
+    for (let p = 0; p < n; p++) {
+      const st = layers[p].get(key), wts = [0, 0];
+      for (let m = 0; m <= 1; m++) {
+        const nk = st.t[m]; if (nk === null || rem - m < 0) continue;
+        const nb = B[p + 1].get(nk); if (nb) wts[m] = nb[rem - m];
+      }
+      const m = Math.random() * (wts[0] + wts[1]) < wts[1] ? 1 : 0;
+      if (m) out[frontier[p]] = 1;
+      rem -= m; key = st.t[m];
+    }
+    // interior: choose M-k uniformly
+    const need = M - k, pool = interior.slice();
+    for (let i = 0; i < need; i++) {
+      const j = i + Math.floor(Math.random() * (pool.length - i));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+      out[pool[i]] = 1;
+    }
+    return out;
+  }
+  return { probMine, sample, feasible: Wsum > 0 };
+}
+
+// ---------- Game logic ----------
+function newGame() {
+  const v = $('preset').value;
+  if (v === 'custom') { W = +$('cw').value; H = +$('ch').value; M = +$('cm').value; }
+  else [W, H, M] = v.split(',').map(Number);
+  W = Math.max(4, Math.min(60, W | 0)); H = Math.max(4, Math.min(40, H | 0));
+  N = W * H; M = Math.max(1, Math.min(N - 10, M | 0));
+  mines = new Uint8Array(N); revealed = new Uint8Array(N); flagged = new Uint8Array(N);
+  health = 1; started = false; over = false; won = false; analysis = null; guesses = 0; boomAt = -1;
+  logEl.textContent = '';
+  $('status').textContent = 'Click any cell to start (first click is free).';
+  buildBoard(); render();
+}
+
+// Only the clicked cell itself is guaranteed mine-free -- its neighbours are drawn normally,
+// so the first click is usually a number rather than a guaranteed opening.
+function placeInitialMines(safe) {
+  const pool = []; for (let i = 0; i < N; i++) if (i !== safe) pool.push(i);
+  for (let i = 0; i < M && i < pool.length; i++) {
+    const j = i + Math.floor(Math.random() * (pool.length - i));
+    [pool[i], pool[j]] = [pool[j], pool[i]]; mines[pool[i]] = 1;
+  }
+  if (pool.length < M) for (let i = 0; i < N && countMines() < M; i++) if (!revealed[i] && i !== safe) mines[i] = 1;
+}
+function countMines() { let c = 0; for (let i = 0; i < N; i++) c += mines[i]; return c; }
+
+function reveal(i) {
+  const stack = [i];
+  while (stack.length) {
+    const c = stack.pop();
+    if (revealed[c]) continue;
+    revealed[c] = 1; flagged[c] = 0;
+    if (numberAt(c) === 0) for (const j of neighbors(c)) if (!revealed[j]) stack.push(j);
+  }
+}
+function revealedCount() { let c = 0; for (let i = 0; i < N; i++) c += revealed[i]; return c; }
+
+function fmtPct(p) {
+  if (p === 0) return '0%';
+  if (p < 1e-4) return p.toExponential(2);
+  return (p * 100).toFixed(p < 0.01 ? 3 : 2) + '%';
+}
+function addLog(s) { logEl.textContent = s + '\n' + logEl.textContent; }
+
+// Open one unknown cell as a "guess": charge its safety probability to health, resample
+// the layout conditioned on it being safe, then reveal. Returns false if health hit 0.
+function guessCell(i, prefix) {
+  if (!analysis) analysis = analyze(-1);
+  let pSafe = 1 - analysis.probMine[i];
+  if (pSafe > 1 - 1e-9) pSafe = 1;
+  if (pSafe < 1e-12) pSafe = 0;
+  guesses++;
+  health *= pSafe;
+  const coord = `(${i % W},${Math.floor(i / W)})`;
+  if (pSafe === 0) {
+    over = true; boomAt = i;
+    addLog(`${prefix || ''}Guessed ${coord}: 0% safe — that cell is provably a mine. Health 0.`);
+    return false;
+  }
+  addLog(`${prefix || ''}Guessed ${coord}: ${fmtPct(pSafe)} safe → health ${fmtPct(health)}`);
+  if (pSafe < 1) {
+    // Re-draw mines consistent with the visible numbers and this cell being safe.
+    const cfg = analyze(i).sample();
+    if (cfg) mines = cfg;
+    else mines[i] = 0; // should not happen
+  }
+  reveal(i);
+  analysis = null;
+  return true;
+}
+
+function checkWin() {
+  if (!over && revealedCount() === N - M) {
+    won = true; over = true;
+    addLog(`Board cleared! Final health: ${fmtPct(health)} (${guesses} guesses).`);
+  }
+}
+
+// ---------- Auto-open ----------
+// Repeatedly open every cell that is provably safe (100% safe). Such cells cost no health, so
+// this is pure bookkeeping: it saves the player clicking out the forced part of the board by hand.
+function autoOpenSafe() {
+  if (!started || over) return 0;
+  const before = revealedCount();
+  for (;;) {
+    if (!analysis) analysis = analyze(-1);
+    let any = false;
+    for (let i = 0; i < N; i++) {
+      if (revealed[i] || flagged[i]) continue;
+      if (analysis.probMine[i] < 1e-12) { reveal(i); any = true; }
+    }
+    if (!any) break;
+    analysis = null;
+  }
+  const opened = revealedCount() - before;
+  if (opened) addLog(`Auto-opened ${opened} provably safe cell${opened > 1 ? 's' : ''} (free).`);
+  return opened;
+}
+
+function onClick(i) {
+  if (over) return;
+  if (revealed[i]) { chord(i); return; }
+  if (flagged[i]) return;
+  if (!started) {
+    started = true;
+    placeInitialMines(i);
+    reveal(i);
+    analysis = null;
+    addLog(`Opened (${i % W},${Math.floor(i / W)}): free first click.`);
+  } else if (!guessCell(i)) { render(); return; }
+  if ($('autoSafe').checked) autoOpenSafe();
+  checkWin();
+  render();
+}
+
+// Left-clicking a satisfied number opens all its unflagged neighbours, one guess at a time.
+function chord(i) {
+  if (!started || over) return;
+  const want = numberAt(i);
+  if (!want) return;
+  const nb = neighbors(i);
+  let flags = 0;
+  for (const j of nb) if (flagged[j]) flags++;
+  const coord = `(${i % W},${Math.floor(i / W)})`;
+  if (flags !== want) {
+    $('status').textContent = `Chord at ${coord} needs exactly ${want} flag${want > 1 ? 's' : ''} around it (${flags} placed).`;
+    return;
+  }
+  const targets = nb.filter(j => !flagged[j] && !revealed[j]);
+  if (!targets.length) return;
+  addLog(`Chord ${coord}: opening ${targets.length} cell${targets.length > 1 ? 's' : ''}.`);
+  for (const t of targets) {
+    if (revealed[t]) continue;           // a previous flood-fill already opened it
+    if (!guessCell(t, '  ↳ ')) { render(); return; }
+    if ($('autoSafe').checked) autoOpenSafe();
+    if (revealedCount() === N - M) break;
+  }
+  checkWin();
+  render();
+}
+function onFlag(i) {
+  if (over || revealed[i]) return;
+  flagged[i] ^= 1; render();
+}
+
+// ---------- Rendering ----------
+let cells = [];
+function buildBoard() {
+  boardEl.innerHTML = ''; cells = [];
+  boardEl.style.gridTemplateColumns = `repeat(${W}, 26px)`;
+  for (let i = 0; i < N; i++) {
+    const d = document.createElement('div');
+    d.className = 'cell';
+    d.addEventListener('click', () => onClick(i));
+    d.addEventListener('contextmenu', e => { e.preventDefault(); onFlag(i); });
+    boardEl.appendChild(d); cells.push(d);
+  }
+}
+function render(boomCell = boomAt) {
+  const showP = $('showProb').checked && started && !over;
+  if (showP && !analysis) analysis = analyze(-1);
+  for (let i = 0; i < N; i++) {
+    const d = cells[i]; d.className = 'cell'; d.textContent = '';
+    if (revealed[i]) {
+      d.classList.add('revealed');
+      const nnum = numberAt(i);
+      if (nnum) { d.textContent = nnum; d.classList.add('n' + nnum); }
+    } else if (over && !won && mines[i]) {
+      d.classList.add('mine'); d.textContent = '💣';
+      if (i === boomCell) d.classList.add('boom');
+    } else if (flagged[i]) {
+      d.classList.add('flag'); d.textContent = '🚩';
+      if (over && !won && !mines[i]) d.classList.add('wrongflag');
+    } else if (over && won) {
+      d.classList.add('flag'); d.textContent = '🚩';
+    } else if (showP) {
+      const p = 1 - analysis.probMine[i];
+      if (!isNaN(p)) {
+        const s = document.createElement('span'); s.className = 'p';
+        const r = Math.round(p * 100);
+        s.textContent = p > 1 - 1e-9 ? '✓' : p < 1e-12 ? '✗' : r;
+        d.appendChild(s);
+        if (p > 1 - 1e-9) d.classList.add('p100'); else if (p < 1e-12) d.classList.add('p0');
+      }
+    }
+  }
+  $('healthFill').style.width = (health * 100) + '%';
+  $('healthFill').style.background = health > 0.5 ? 'linear-gradient(90deg,#2ecc71,#27ae60)' : health > 0.2 ? '#f1c40f' : '#e74c3c';
+  $('healthText').textContent = `Health: ${fmtPct(health)}  ·  Mines: ${M}  ·  Flags: ${flagged.reduce((a, b) => a + b, 0)}  ·  Guesses: ${guesses}`;
+  if (over) $('status').textContent = won ? `🎉 Cleared! Score (final health): ${fmtPct(health)}` : '💥 Health reached 0 — game over.';
+  else if (started) $('status').textContent = 'Playing…';
+}
+
+$('preset').addEventListener('change', () => { $('customBox').style.display = $('preset').value === 'custom' ? '' : 'none'; });
+$('newGame').addEventListener('click', newGame);
+$('showProb').addEventListener('change', () => render());
+$('autoSafe').addEventListener('change', () => {
+  if ($('autoSafe').checked && started && !over) { autoOpenSafe(); checkWin(); }
+  render();
+});
+newGame();
+})();
+</script>
+</body>
+</html>
