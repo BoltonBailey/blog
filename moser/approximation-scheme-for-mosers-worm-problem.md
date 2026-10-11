@@ -136,6 +136,8 @@ But we can actually find a shorter worm (length about 3.9) that contains the pen
 Still, this problem seems simple enough that I figure it's probably in P (modulo weird square-root-sum concerns).
 I think you can probably say something like "the minimal worm that contains a point set only includes at most two vertices not in the set, namely the endpoints" and then argue that these two points fall on perpendiculars to lines coindicent with sides of the hull and do polynomial casework over these.
 
+Update: I actually tried to investigate this with AI and it seems like it's harder than it appears to prove one way or another that this is polynomial time!
+
 <!-- 
 Here a (potentially useful?) lemma:
 
