@@ -15,7 +15,7 @@ In August and September 2026, I undertook some attempts, almost all of which wer
 
 TODO(paper) in the above table it would be good to also include stats on completion time, model use, etc.
 
-This note summarizes some of the ideas, goals and takeaways behind this work.
+This note summarizes some of the ideas, goals, and takeaways behind this work.
 
 ## Cobham = FP
 
@@ -23,10 +23,10 @@ I was interested in proving this theorem after seeing a references to implicit c
 Of the various versions of the characterization of FP in this framework, I was most interested in formalizing the Cobham version, which is the oldest and is quite simple.
 The Cobham characterization of FP seemed useful, because it featured the compositionality of polytime computable functions as a basic primitive.
 For many predicates on functions in Mathlib, the closure under compositionality features as an important lemma (e.g. continuity, mesurable) (Indeed, I don't recall if I thought this at the time, but at some point I saw Sam mention `fun_prop` tactic as an approach to proving polytime-like properties of functions, and I thought that this was a great idea and exactly the kind of use case that might need compositionality as a prequisite).
-Related to this another motiviation for proving the Cobham result came from a prior proof I had undertaken (also with the assistance of AI) to simply show closure under composition for single tape TMs for cslib.
+Related to this, another motiviation for proving the Cobham result came from a prior [proof I had undertaken (also with the assistance of AI) to simply show closure under composition for Single Tape TMs for CSLib](https://github.com/leanprover/cslib/pull/269/changes#diff-6464ba22bcf71ee0f7bb4d1d1b6442ddedb236e2db06e0dad884805311abe4b3R492).
 It had struck me that the procedure for constructing a TM that computed the compostion of two given TMs was conceptually simple, but that AI had been a great benefit in that case to deal with the minutiae of handling all the intermediate steps in the composed machine's computation.
-Indeed, also on my mind was [Yannick Forsters talk about how easy it is to die in the details of proofs relating models of computation](https://www.youtube.com/watch?v=pa5mURjUNFI), I thought it could be good to approach.
-So I already had a proof-of-concept that part of such a proof that would otherwise be quite difficult for a human could be done by AI, and extending the proof to cover both directions of the relation and also the recursion construct of the cobham calculus seemed like a good way to continue the investigation of what LLMs could accomplish.
+Indeed, also on my mind was [Yannick Forsters talk about how easy it is to die in the details of proofs relating models of computation](https://www.youtube.com/watch?v=pa5mURjUNFI), I thought his report indicated that it could be a good approach to use AI for this kind of thing.
+So I already had a proof-of-concept that part of such a proof that would otherwise be quite difficult for a human could be done by AI, and extending the proof to cover both directions of the relationship between Cobham's calculus and TM-based polynomial time and also the recursion construct of the Cobham calculus seemed like a good way to continue the investigation of what LLMs could accomplish.
 
 ComplexityLib seemed like a good place to pursue the formalization, since it was an AI-friendly library with prerequisites on definition of a TM model.
 Indeed, most of the content ultimately produced by the model was isolated in "internal" files meant to primarily be read and consumed by agents, following the complexitylib convention.
