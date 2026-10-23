@@ -8,6 +8,7 @@ This is an automatically generated sitemap of all blog posts in this repository.
   - [Bit Commitment from Factor Counting](bit-commitment-from-factor-counting.md)
   - [Thoughts on Condorcet Methods](condorcet-thoughts.md)
   - [Explaining Constructive Russell's Paradox with Lean](explaining-constructive-russells-paradox-with-lean.md)
+  - [Complexity Class Containments](formalizing-complexity-experience-report.md)
   - [Probabilistic and Cryptographic Logical Systems](formally-verifying-probabilistic-proofs.md)
   - [More Space Operas Should Be Set in the Galactic Nucleus](galactic-nucleus-as-space-opera-setting.md)
   - [How a High School Math Program Got Me Through Grad School](how-a-high-school-math-program-got-me-through-grad-school.md)
